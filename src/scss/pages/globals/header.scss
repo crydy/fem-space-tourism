@@ -11,12 +11,12 @@ $top-indent: 24;
     padding: rem($top-indent) rem($edge-indent);
 
     @include breakpoint(medium) {
-        // padding-top: 0;
         padding-bottom: 0;
     }
 
     &__logo-link {
         align-self: flex-start;
+        user-select: none;
     }
 }
 
@@ -75,11 +75,26 @@ $top-indent: 24;
         }
     }
 
+    // --------------- numeration -----------------
+    @include counter-reset(nav-links-counter, -1);
+
+    &__link {
+
+        @include counter(nav-links-counter, '', true);
+
+        &:before {
+            font-weight: bold;
+            margin-right: em(8);
+        }
+    }
+    // --------------------------------------------
+
     &__link {
         @include reset-link;
         word-wrap: nowrap;
+        user-select: none;
 
-        &::before {
+        &::after {
             position: absolute;
             content: '';
             bottom: -30%;
@@ -99,13 +114,13 @@ $top-indent: 24;
             }
         }
 
-        &:hover::before,
-        &:focus::before {
+        &:hover::after,
+        &:focus::after {
             opacity: 1;
             background-color: $color-font-2;
         }
 
-        &:active::before {
+        &:active::after {
             opacity: 1;
             background-color: $color-font-1;
         }
@@ -114,17 +129,9 @@ $top-indent: 24;
             outline-offset: 4px;
             outline: 3px solid $color-font-2;
 
-            &::before {
+            &::after {
                 opacity: 0;
             }
         }
-    }
-
-    &__number {
-        font-weight: bold;
-    }
-
-    &__text {
-        margin-left: em(8);
     }
 }

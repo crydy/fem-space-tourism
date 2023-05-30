@@ -1,6 +1,6 @@
 @use '../util' as *;
 
-.index-page {
+.index-body {
     background-image: url("/img/home/background-home-tablet.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -31,14 +31,21 @@
     }
 
     &__text-wrapper {
+
         @include breakpoint(medium) {
             max-width: min-content;
         }
     }
     
-    // &__subheader {}
-    // &__header {}
-    // &__info {}
+    &__info {
+        max-width: 75%;
+        margin: 0 auto;
+
+        @include breakpoint(medium) {
+            margin: 0;
+            max-width: none;
+        }
+    }
 
     &__button {
         margin-top: rem(81);

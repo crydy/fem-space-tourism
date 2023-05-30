@@ -2,6 +2,7 @@
 @use '../util/functions.scss' as *;
 @use '../util/breakpoints.scss' as *;
 
+// ----------- Resets --------------
 @mixin reset-button {
     margin: 0;
     padding: 0;
@@ -32,6 +33,7 @@
         color: inherit;
     }
 }
+// ---------------------------------
 
 @mixin button {
     display: block;
@@ -99,3 +101,47 @@
     background: rgba(53, 60, 75, 0.3);
     backdrop-filter: blur(10px);
 }
+
+// ----------------------------- numeration ---------------------------------
+// use:
+// (it will create ::before with numeration):
+// @include counter(my-counter)               =>   '1', '2', etc
+// @include counter(my-counter, '. ', true)   =>   '01. ', '02. ', etc
+
+@mixin counter($name, $separator: '', $leadingZero: false) {
+    
+    &:before {
+        counter-increment: $name;
+        content:
+            if($leadingZero,
+                counter($name, decimal-leading-zero),
+                counter($name) 
+            ) + " '" + #{$separator} + "'";
+    }
+}
+
+// apply to the parent with the same name
+// @include counter-reset(my-counter, -1)
+@mixin counter-reset($name, $start: 0) {
+    counter-reset: $name $start;
+}
+
+// --------------------------------------------------------------------------
+//
+//
+//                                 example:
+// 
+// .parent {
+//     @include counter-reset(my-counter, -1); // start from 0;
+//
+//     .children {
+//         @include counter(my-counter, '- ', true); =>   '01- ', '02- ', etc
+//
+//         // stylization for numbers
+//         &:before {
+//             font-weight: bold;
+//             margin-right: 8em;
+//         }
+//     }
+// }
+// --------------------------------------------------------------------------

@@ -20,6 +20,8 @@
 
     background-color: $color-font-1;
 
+    user-select: none;
+
     @include breakpoint(medium) {
         --button-size: #{rem($button-size * 1.61)};
         font-size: rem(32);
