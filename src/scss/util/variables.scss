@@ -1,0 +1,32 @@
+// breakpoints in px (px => em)
+// $breakpoint-medium: 375;
+
+
+$breakpoint-medium: 768;
+$breakpoint-large: 1440;
+$breakpoint-xlarge: 0;
+
+// main sizes
+// $body-min-size: 280;
+// $body-max-size: 1440;
+$edge-indent: 24;
+
+// transition rules
+$trans-dur: 150ms;
+$trans-tf: ease-in-out;
+$transition-all: all $trans-dur $trans-tf;
+
+// Colors
+$color-theme: #0B0D17;
+$color-font-1: #fff;
+$color-font-2: #D0D6F9;
+
+// Burger button setup
+$burger-button-height: 21;
+$burger-button-width: 24;
+$burger-bar-height: 3;
+$burger-button-color: $color-font-1;
+
+// fonts
+$font-headings: 'Bellefair', serif;
+$font-regular: 'Barlow Condensed', sans-serif; // weight: 200, 400

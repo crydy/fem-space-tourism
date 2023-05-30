@@ -1,0 +1,49 @@
+// for using em() convertion function
+@use '../util/functions' as *;
+@use '../util/variables' as *;
+
+// sass-map to increase
+$breakpoints-up: (
+	'medium': em($breakpoint-medium),
+	'large': em($breakpoint-large),
+	'xlarge': em($breakpoint-xlarge),
+);
+// sass-map to decrease
+$breakpoints-down: (
+	'small': em($breakpoint-medium - 1),
+	'medium': em($breakpoint-large - 1),
+	'large': em($breakpoint-xlarge - 1),
+);
+
+@mixin breakpoint($size) {
+	@media (min-width: map-get($breakpoints-up, $size)) {
+		@content;
+	}
+}
+
+@mixin breakpoint-down($size) {
+	@media (max-width: map-get($breakpoints-down, $size)) {
+		@content;
+	}
+}
+
+// --------------using example------------
+//
+//
+//      h1 {
+//          @include breakpoint(large) {
+//              font-size: 3rem;
+//          }
+//      }
+//
+//
+// ------------------result---------------
+//
+//
+//      @media (min-width: 87.5em) {
+//          h1 {
+//              font-size: 3rem;
+//          }
+//      }
+// 
+// ---------------------------------------

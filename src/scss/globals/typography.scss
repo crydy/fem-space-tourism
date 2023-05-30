@@ -1,0 +1,85 @@
+@use '../util' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;400&display=swap');
+
+
+:root {
+    font-family: $font-regular;
+    font-weight: 200;
+    color: $color-font-1;
+}
+
+.header-1 {
+    margin-top: 0;
+    margin-bottom: rem(24);
+
+    font-family: $font-headings;
+    text-transform: uppercase;
+    line-height: 1.25;
+    font-size: rem(80);
+
+    @include breakpoint(medium) {
+        font-size: rem(150);
+        line-height: 1.15;
+    }
+    
+}
+
+.header-2 {
+    @extend .header-1;
+    font-size: rem(100);
+}
+
+.header-3 {
+    @extend .header-1;
+    font-size: rem(56);
+}
+
+.header-4 {
+    @extend .header-1;
+    font-size: rem(32);
+}
+
+.subheader {
+    margin-top: 0;
+
+    font-family: $font-regular;
+    font-weight: normal;
+    font-size: rem(16);
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: em(2.75);
+    color: $color-font-2;
+    
+    @include breakpoint(medium) {
+        font-size: rem(20);
+    }
+
+    @include breakpoint(large) {
+        font-size: rem(28);
+    }
+}
+
+p {
+    font-size: rem(15);
+    line-height: 1.65;
+    color: $color-font-2;
+
+    @include breakpoint(medium) {
+        font-size: rem(16);
+        line-height: 1.75;
+    }
+
+    @include breakpoint(medium) {
+        font-size: rem(18);
+        line-height: 1.78;
+    }
+}
+
+@mixin text-navigation {
+    font-size: rem(14);
+    letter-spacing: em(2.7);
+
+    text-transform: uppercase;
+}

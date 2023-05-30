@@ -1,0 +1,51 @@
+@use '../util' as *;
+
+.button-explore {
+    $button-size: 150;
+
+    --button-size: #{rem($button-size)};
+    --outline-size: calc(var(--button-size) * 1.642);
+
+    @include reset-link;
+    @include flex;
+    width: var(--button-size);
+    height: var(--button-size);
+    position: relative;
+    border-radius: 50%;
+
+    font-family: $font-headings;
+    font-size: rem(20);
+    text-transform: uppercase;
+    color: $color-theme;
+
+    background-color: $color-font-1;
+
+    @include breakpoint(medium) {
+        --button-size: #{rem($button-size * 1.61)};
+        font-size: rem(32);
+
+        margin-top: rem(156);
+    }
+
+    @include breakpoint(large) {
+        --button-size: #{rem($button-size * 1.83)};
+        font-size: rem(32);
+    }
+
+    &::before {
+        position: absolute;
+        content: '';
+        width: var(--outline-size);
+        height: var(--outline-size);
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0;
+
+        @include transition(opacity);
+        @include frosted-glass;
+    }
+
+    &:hover::before {
+        opacity: 1;
+    }
+}

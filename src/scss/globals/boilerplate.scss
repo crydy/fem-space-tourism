@@ -1,0 +1,23 @@
+@use '../util' as *;
+
+html {
+    font-size: 100%;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: $color-theme;
+    min-width: min-content;
+}
+
+// p {
+//     margin: 0;
+//     padding: 0;
+// }

@@ -1,0 +1,7 @@
+@use '../util' as *;
+
+.overlay {
+    @include breakpoint(medium) {
+        display: none;
+    }
+}

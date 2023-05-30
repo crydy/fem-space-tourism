@@ -1,0 +1,130 @@
+@use '../../util' as *;
+@use '../../globals/typography' as *;
+
+$top-indent: 24;
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: rem($top-indent) rem($edge-indent);
+
+    @include breakpoint(medium) {
+        // padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &__logo-link {
+        align-self: flex-start;
+    }
+}
+
+.nav {
+    @include breakpoint(medium) {
+        margin-left: rem($edge-indent);
+    }
+
+    &__list {
+        @include reset-list;
+        @include text-navigation;
+        @include frosted-glass;
+
+        display: flex;
+        flex-direction: column;
+        
+        min-height: 100vh;
+        min-width: rem(170);
+        width: 68vw;
+        
+        padding-left: rem(32);
+        padding-top: rem(118);
+
+        @include breakpoint(medium) {
+            flex-direction: row;
+            column-gap: rem(35);
+            flex-wrap: wrap;
+
+            min-height: auto;
+            min-width: auto;
+            width: auto;
+    
+            padding-left: rem(35);
+            padding-right: rem(35);
+            padding-top: 0;
+            
+            // shift out of parent
+            margin-top: rem(-$top-indent);
+            margin-right: rem(-$edge-indent);
+        }
+    }
+
+    &__item {
+        position: relative;
+        
+        @include breakpoint(medium) {
+            padding: rem(36.5) 0;
+        }
+        
+        &:not(:last-child) {
+            margin-bottom: rem(32);
+
+            @include breakpoint(medium) {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__link {
+        @include reset-link;
+        word-wrap: nowrap;
+
+        &::before {
+            position: absolute;
+            content: '';
+            bottom: -30%;
+            right: 0;
+            width: rem(3);
+            height: 160%;
+            pointer-events: none;
+            opacity: 0;
+            
+            @include transition(opacity);
+            
+            @include breakpoint(medium) {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: rem(3);
+            }
+        }
+
+        &:hover::before,
+        &:focus::before {
+            opacity: 1;
+            background-color: $color-font-2;
+        }
+
+        &:active::before {
+            opacity: 1;
+            background-color: $color-font-1;
+        }
+
+        &:focus-visible {
+            outline-offset: 4px;
+            outline: 3px solid $color-font-2;
+
+            &::before {
+                opacity: 0;
+            }
+        }
+    }
+
+    &__number {
+        font-weight: bold;
+    }
+
+    &__text {
+        margin-left: em(8);
+    }
+}

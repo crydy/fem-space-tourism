@@ -1,0 +1,101 @@
+@use '../util/variables.scss' as *;
+@use '../util/functions.scss' as *;
+@use '../util/breakpoints.scss' as *;
+
+@mixin reset-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@mixin reset-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+@mixin reset-link {
+    color: inherit;
+    text-decoration: none;
+      
+    &:hover {
+        text-decoration: none;
+    }
+    
+    &:visited {
+        color: inherit;
+    }
+}
+
+@mixin button {
+    display: block;
+    border: rem(2) solid $medium-gray;
+    border-radius: rem(12);
+    line-height: 2.3;
+    text-align: center;
+}
+
+@mixin button-hover {
+    border-color: black;
+    background-color: white;
+    color: black;
+}
+
+@mixin buttun-paddings {
+    padding-left: rem(20);
+    padding-right: rem(20);
+}
+
+@mixin transition($property: 'all', $trans-dur: $trans-dur) {
+    transition: #{$property} $trans-dur $trans-tf;
+}
+
+@mixin limit-max-width {
+    max-width: rem($body-max-size);
+    margin: 0 auto;
+}
+
+@mixin flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin edges {
+    padding-left: rem($edge-indent);
+    padding-right: rem($edge-indent);
+
+    @include breakpoint(large) {
+        padding-left: rem(165);
+        padding-right: rem(165);
+
+        padding-left: 11.46vw;
+        padding-right: 11.46vw;
+    }
+}
+
+@mixin frosted-glass {
+    background: rgba(53, 60, 75, 0.3);
+    backdrop-filter: blur(10px);
+}

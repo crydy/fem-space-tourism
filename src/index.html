@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Head -->
+    @@include('html/globals/head.html', {
+        'title': 'Main page'
+    })
+<body class="index-page">
+    <!-- Header -->
+    @@include('html/globals/header.html', {})
+
+    <h1 class="visually-hidden">Space tourism</h1>
+    
+    <!-- Main content -->
+    <main class="index">
+
+        <div class="index__text-wrapper">
+            <p class="index__subheader subheader">So, you want to travel to</p>
+            <h2 class="index__header-1 header-1">Space</h2>
+            <p class="index__info">
+                Let&#39s face it; if you want to go to space, you might as well genuinely go to 
+                outer space and not hover kind of on the edge of it. Well sit back, and relax 
+                because we&#39ll give you a truly out of this world experience!
+            </p>
+        </div>
+
+        <a href="destination.html" class="index__button button-explore">
+            Explore
+        </a>
+
+    </main>
+
+    <!-- Footer -->
+    @@include('html/globals/footer.html', {})
+</body>
+</html>
