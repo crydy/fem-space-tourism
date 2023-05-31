@@ -34,6 +34,10 @@
         font-size: rem(32);
     }
 
+    &:focus {
+        outline: none;
+    }
+
     &::before {
         position: absolute;
         content: '';
@@ -47,7 +51,8 @@
         @include frosted-glass;
     }
 
-    &:hover::before {
+    &:hover::before,
+    &:focus::before {
         opacity: 1;
     }
 }

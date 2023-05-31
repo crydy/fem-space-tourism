@@ -2,6 +2,9 @@
 @use '../../globals/typography' as *;
 
 $top-indent: 24;
+$outline-size: 3; // + underline size
+$outline-offset: 4;
+
 
 .header {
     display: flex;
@@ -17,6 +20,42 @@ $top-indent: 24;
     &__logo-link {
         align-self: flex-start;
         user-select: none;
+        @include transition(transform);
+
+        &:hover,
+        &:active {
+            transform: scale(1.2);
+        }
+
+        &:focus-visible {
+            border-radius: 50%;
+            outline: #{rem($outline-size)} solid #{$color-font-1};
+            outline-offset: rem($outline-offset);
+        }
+    }
+
+    #burger-button {
+        position: relative;
+        @include transition(transform);
+
+        &:hover,
+        &:active {
+            transform: scale(1.2);
+        }
+        
+        // outline keeper
+        &:focus-visible::before {
+            $size: calc(100% + #{rem($outline-offset * 2)});
+
+            position: absolute;
+            content: '';
+            width: $size;
+            height: $size;
+            top: rem($outline-offset * -1);
+            left: rem($outline-offset * -1);
+
+            outline: #{rem($outline-size) solid #{$color-font-1}};
+        }
     }
 }
 
@@ -91,16 +130,21 @@ $top-indent: 24;
 
     &__link {
         @include reset-link;
+        @include transition(outline-offset);
         word-wrap: nowrap;
         user-select: none;
+
+        &:active {
+            color: $color-font-1;
+        }
 
         &::after {
             position: absolute;
             content: '';
-            bottom: -30%;
+            bottom: -40%;
             right: 0;
-            width: rem(3);
-            height: 160%;
+            width: rem($outline-size);
+            height: 180%;
             pointer-events: none;
             opacity: 0;
             
@@ -110,27 +154,39 @@ $top-indent: 24;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: rem(3);
+                height: rem($outline-size);
             }
         }
 
         &:hover::after,
-        &:focus::after {
+        &:focus-visible::after {
             opacity: 1;
             background-color: $color-font-2;
         }
 
         &:active::after {
-            opacity: 1;
             background-color: $color-font-1;
         }
 
         &:focus-visible {
-            outline-offset: 4px;
-            outline: 3px solid $color-font-2;
+
+            // outline in keyboard navigation
+            outline-offset: rem($outline-offset);
+            outline: #{rem($outline-size)} solid $color-font-2;
 
             &::after {
-                opacity: 0;
+
+                // underline width will consider appeared outline in keyboard navigation
+                @include breakpoint(medium) {
+                    width: calc(
+                        100% + #{( rem($outline-size) + rem($outline-offset) )} * 2
+                    );
+                    transform: translateX(
+                        calc(
+                            ( #{rem($outline-size)} + #{rem($outline-offset)} ) * -1
+                        )
+                    );
+                }
             }
         }
     }

@@ -18,12 +18,12 @@
     text-transform: uppercase;
     line-height: 1.25;
     font-size: rem(80);
+    font-weight: 400;
 
     @include breakpoint(medium) {
         font-size: rem(150);
         line-height: 1.15;
     }
-    
 }
 
 .header-2 {
@@ -82,4 +82,10 @@ p {
     letter-spacing: em(2.7);
 
     text-transform: uppercase;
+
+    color: $color-font-2;
+    
+    a:active {
+        color: $color-font-1;
+    }
 }

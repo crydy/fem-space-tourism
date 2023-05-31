@@ -17,6 +17,11 @@ body {
     min-width: min-content;
 }
 
+// remove ghost indent at the bottom
+a img {
+    vertical-align: middle;
+}
+
 // p {
 //     margin: 0;
 //     padding: 0;

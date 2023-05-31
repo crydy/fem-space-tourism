@@ -1,14 +1,17 @@
 @use '../util' as *;
 
 .index-body {
-    background-image: url("/img/home/background-home-tablet.jpg");
+    background-image: url("/img/home/background-home-mobile.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: top center;
     background-attachment: fixed;
+    background-position: center;
     
+    @include breakpoint(medium) {
+        background-image: url("/img/home/background-home-tablet.jpg");
+    }
     @include breakpoint(large) {
-        background-image: url("../../img/home/background-home-desktop.jpg");
+        background-image: url("/img/home/background-home-desktop.jpg");
     }
 }
 
