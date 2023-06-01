@@ -1,0 +1,230 @@
+@use '../util' as *;
+
+
+.destination {
+    background-image: url("/img/destination/background-destination-mobile.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
+    @include breakpoint(medium) {
+        background-image: url("/img/destination/background-destination-tablet.jpg");
+    }
+    @include breakpoint(large) {
+        background-image: url("/img/destination/background-destination-desktop.jpg");
+    }
+
+
+    &__main {
+        text-align: center;
+        @include edges;
+
+        @include breakpoint(large) {
+            @include flex-row;
+            justify-content: space-around;
+        }
+    }
+
+    &__preheader {
+        @include prepend-number(1);
+
+        @include breakpoint(large) {
+            align-self: flex-start;
+        }
+    }
+
+    &__image {
+        width: rem(170);
+        user-select: none;
+
+        margin-bottom: rem(26);
+        
+        @include breakpoint(medium) {
+            width: rem(300);
+            margin-bottom: rem(53);
+        }
+
+        @include breakpoint(large) {
+            width: rem(445);
+            margin-bottom: rem(97);
+        }
+    }
+
+    &__infoblock {
+
+        @include breakpoint(large) {
+            @include flex;
+            align-items: flex-start;
+        }
+    }
+
+    &__buttonsblock {
+        display: inline-block;
+        margin-bottom: rem(31);
+        min-width: max-content;
+
+        & > div {
+            $arrow-distance: 55;
+
+            position: relative;
+
+            &::before,
+            &::after {
+                position: absolute;
+                content: '➤';
+                top: 0;
+                opacity: 0;
+                @include transition(opacity);
+            }
+
+            &::before {
+                transform: rotate(180deg);
+                left: rem(-$arrow-distance);
+            }
+
+            &::after {
+                top: rem(-2.5);
+                right: rem(-$arrow-distance);
+            }
+
+            &:focus-within::before,
+            &:focus-within::after {
+                opacity: 1;
+            }
+
+        }
+        
+        @include breakpoint(medium) {
+            margin-bottom: rem(47);
+        }
+        
+        @include breakpoint(large) {
+            margin-bottom: rem(52);
+        }
+    }
+    
+    &__button {
+        position: relative;
+
+        font-size: rem(14);
+        letter-spacing: em(2.7);
+        text-transform: uppercase;
+        text-align: center;
+        color: $color-font-weak;
+        
+        user-select: none;
+        cursor: pointer;
+
+        &:hover {
+            color: $color-font-strong;
+        }
+
+        &:not(:last-child) {
+            margin-right: rem(27);
+        }
+    
+        @include breakpoint(medium) {
+            font-size: rem(16);
+        }
+
+        &::before {
+            background-color: $color-font-weak;
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: rem(3);
+            bottom: rem(-11);
+            opacity: 0;
+            @include transition(opacity);
+            
+            @include breakpoint(medium) {
+                bottom: rem(-15);
+            }
+        }
+    }
+
+    input[type='radio']:checked + label {
+        color: $color-font-strong;
+        pointer-events: none;
+
+        &::before {
+            opacity: 1;
+        }
+    }
+
+    // &__header
+
+    &__description {
+        position: relative;
+
+        max-width: rem(450);
+        margin-left: auto;
+        margin-right: auto;
+
+        padding-bottom: rem(32);
+        margin-bottom: rem(32);
+        
+        @include breakpoint(medium) {
+            max-width: rem(580);
+
+            padding-bottom: rem(49);
+            margin-bottom: rem(28);
+        }
+
+        @include breakpoint(large) {
+            padding-bottom: rem(54);
+            margin-left: 0;
+            margin-right: 0;
+            min-width: auto;
+
+            text-align: left;
+            max-width: 390px;
+        }
+        
+        &::before {
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: rem(1);
+            left: 0;
+            bottom: 0;
+            background-color: $color-theme-2;
+        }
+    }
+
+    &__details {
+        
+        @include breakpoint(medium) {
+
+            display: flex;
+            justify-content: center;
+            gap: rem(100);
+        }
+
+        @include breakpoint(large) {
+
+            gap: rem(60);
+        }
+
+        & > * {
+            margin-bottom: rem(32);
+            
+            @include breakpoint(medium) {
+            }
+            @include breakpoint(large) {
+                margin-bottom: 0;
+                text-align: left;
+            }
+        }
+    }
+
+    &__title {
+        display: block;
+        margin-bottom: rem(12);
+    }
+
+    &__value {
+        display: block;
+    }
+}

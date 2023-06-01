@@ -12,15 +12,19 @@ $underline-width: $outline-size;
     justify-content: space-between;
     align-items: center;
 
-    padding: rem(24) rem($edge-indent);
+    @include edges;
+
+    padding-top: rem(24);
+    padding-bottom: rem(24);
 
     @include breakpoint(medium) {
         padding-top: 0;
         padding-bottom: 0;
     }
-
+    
     @include breakpoint(large) {
         padding-top: rem(40);
+        padding-bottom: 0;
     }
 
     &__logo-link {
@@ -98,7 +102,12 @@ $underline-width: $outline-size;
             padding-top: 0;
             
             // shift out of parent
-            margin-right: rem(-$edge-indent);
+            margin-right: rem(-$edge-indent-medium);
+        }
+        
+        @include breakpoint(large) {
+            // shift out of parent
+            margin-right: rem(-$edge-indent-large);
         }
     }
 

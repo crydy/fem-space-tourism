@@ -20,3 +20,18 @@
     height:   1px;
     overflow: hidden;
 }
+
+.preheader {
+    user-select: none;
+    margin-top: rem(40);
+
+    @include breakpoint(medium) {
+        text-align: left;
+        margin-left: rem($edge-indent);
+    }
+
+    @include breakpoint(medium) {
+        text-align: left;
+        margin-top: rem(76);
+    }
+}

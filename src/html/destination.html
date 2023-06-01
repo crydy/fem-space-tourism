@@ -6,7 +6,7 @@
         'title': 'Space tourism'
     })
 
-<body class="index-body">
+<body class="destination">
 
     <!-- Header -->
     @@include('globals/header.html', {
@@ -24,7 +24,76 @@
     <h1 class="visually-hidden">Space tourism: destination</h1>
     
     <!-- Main content -->
-    <main class="destination">
+    <main class="destination__main">
+
+        <div>
+            <!-- Pre-header -->
+            <p class="destination__preheader preheader">Pick your destination</p>
+    
+            <!-- Image -->
+            <img id="image" class="destination__image" src="#" alt="Moon image">
+        </div>
+
+        <!-- Info -->
+        <div class="destination__infoblock">
+
+            <!-- Buttons -->
+            <form class="destination__buttonsblock">
+
+                <div>
+
+                    <legend class="visually-hidden">
+                        Select your planet:
+                    </legend>
+
+                    <input
+                        type="radio" id="Moon" name="planets"
+                        class="visually-hidden"
+                        checked
+                    ><!--
+                    --><label class="destination__button" for="Moon">Moon</label><!--
+
+                    --><input
+                        type="radio" id="Mars" name="planets"
+                        class="visually-hidden"
+                    ><!--
+                    --><label class="destination__button" for="Mars">Mars</label><!--
+
+                    --><input
+                        type="radio" id="Europa" name="planets"
+                        class="visually-hidden"
+                    ><!--
+                    --><label class="destination__button" for="Europa">Europa</label><!--
+
+                    --><input
+                        type="radio" id="Titan" name="planets"
+                        class="visually-hidden"
+                    ><!--
+                    --><label class="destination__button" for="Titan">Titan</label>
+                    
+                </div>
+            </form>
+
+            <!-- Planet name -->
+            <h2 class="destination__header header-2" id="name"></h2>
+
+            <!-- Description -->
+            <p id="description" class="destination__description"></p>
+
+            <!-- Details -->
+            <div class="destination__details">
+                <div>
+                    <span class="destination__title details-title">Avg. distance</span>
+                    <span class="destination__value details-value" id="distance"></span>
+                </div>
+                <div>
+                    <span class="destination__title details-title">Est. travel time</span>
+                    <span class="destination__value details-value" id="travel"></span>
+                </div>
+            </div>
+
+        </div>
+
 
         <!-- REGULAR DATA FROM JSON
 
@@ -36,15 +105,16 @@
             "description": "See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.",
             "distance": "384,400 km",
             "travel": "3 days"
-            
+
         -->
 
         <!-- Test blocks -->
-        <div id="name"></div>
-        <img id="image"></img>
-        <div id="description"></div>
-        <div id="distance"></div>
-        <div id="travel"></div>
+        
+        <!-- <div id="name"></div> -->
+        <!-- <img id="image"></img> -->
+        <!-- <div id="description"></div> -->
+        <!-- <div id="distance"></div> -->
+        <!-- <div id="travel"></div> -->
     </main>
 
     <!-- Footer -->

@@ -36,17 +36,23 @@ window.addEventListener('DOMContentLoaded', () => {
             fetchDataForCurrentPage(dataPath, pageName).then(result => {
 
                 let startData = result[0];
-                log(startData);
 
-                Object.entries(elems).forEach(([key, value]) => {
-                    console.log(key, value);
+                // log(startData);
 
-                    if (key === 'image') {
-                        // add png/webp switch treatment
-                        // add alt info
-                        value.src = startData.images.png;
-                    } else {
-                        value.innerText = startData[key]
+                Object.entries(elems).forEach(([id, element]) => {
+
+                    // console.log(key, value);
+
+                    if (element) {
+
+                        if (id === 'image') {
+                            // add png/webp switch treatment
+                            // add alt info
+                            element.src = startData.images.png;
+                            element.alt = `${startData.name} photo`;
+                        } else {
+                            element.innerText = startData[id]
+                        }
                     }
                 });
             })

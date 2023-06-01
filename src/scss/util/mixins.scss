@@ -87,19 +87,47 @@
 @mixin edges {
     padding-left: rem($edge-indent);
     padding-right: rem($edge-indent);
-
+    
+    @include breakpoint(medium) {
+        padding-left: rem($edge-indent-medium);
+        padding-right: rem($edge-indent-medium);
+    }
+    
     @include breakpoint(large) {
-        padding-left: rem(165);
-        padding-right: rem(165);
-
-        padding-left: 11.46vw;
-        padding-right: 11.46vw;
+        padding-left: rem($edge-indent-large);
+        padding-right: rem($edge-indent-large);
     }
 }
 
 @mixin frosted-glass {
     background: rgba(53, 60, 75, 0.3);
     backdrop-filter: blur(10px);
+}
+
+// for preheaders numeration in inner pages
+@mixin prepend-number($number) {
+    left: em(15);
+    position: relative;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    &::before {
+        left: em(-30);
+        position: absolute;
+        content: '0#{$number}';
+        font-weight: bold;
+        color: $color-theme-2;
+    }
+
+    @include breakpoint(medium) {
+        margin-left: 0;
+        margin-right: 0;
+        left: em(30);
+    }
+    @include breakpoint(large) {
+        left: 0;
+    }
 }
 
 // ----------------------------- numeration ---------------------------------

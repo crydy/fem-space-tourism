@@ -1,6 +1,7 @@
 @use '../util' as *;
 
-.index-body {
+
+.index {
     background-image: url("/img/home/background-home-mobile.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -13,30 +14,47 @@
     @include breakpoint(large) {
         background-image: url("/img/home/background-home-desktop.jpg");
     }
-}
 
-.index {
-    @include edges;
-    @include flex;
-    text-align: center;
-    margin-top: rem(48);
+    &__main {
+        @include edges;
 
-    @include breakpoint(medium) {
-        margin-top: rem(106);
-    }
+        @include flex;
+        text-align: center;
+        margin-top: rem(48);
     
-    @include breakpoint(large) {
-        text-align: left;
+        @include breakpoint(medium) {
+            margin-top: rem(106);
+        }
+        
+        @include breakpoint(large) {
+            text-align: left;
+    
+            margin-top: 17.4vh;
+            flex-direction: row;
+            justify-content: space-between;
 
-        margin-top: 17.4vh;
-        flex-direction: row;
-        justify-content: space-between;
+            padding-left: rem(165);
+            padding-right: rem(165);
+    
+            padding-left: 11.46vw;
+            padding-right: 11.46vw;
+        }
     }
 
     &__text-wrapper {
 
         @include breakpoint(medium) {
             max-width: min-content;
+        }
+    }
+
+    &__preheader {
+        margin-bottom: rem(16);
+        text-align: center;
+        color: $color-font-weak;
+
+        @include breakpoint(large) {
+            text-align: left;
         }
     }
     

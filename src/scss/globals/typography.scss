@@ -10,7 +10,33 @@
     color: $color-font-strong;
 }
 
+.preheader {
+    margin-top: 0;
+
+    font-family: $font-regular;
+    font-weight: normal;
+    font-size: rem(16);
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: em(2.75);
+    color: $color-font-strong;
+
+    margin-bottom: rem(32);
+    
+    @include breakpoint(medium) {
+        font-size: rem(20);
+        margin-bottom: rem(60);
+    }
+    
+    @include breakpoint(large) {
+        font-size: rem(28);
+        margin-bottom: rem(97);
+    }
+}
+
 .header-1 {
+    user-select: none;
+
     margin-top: 0;
     margin-bottom: rem(24);
 
@@ -28,40 +54,41 @@
 
 .header-2 {
     @extend .header-1;
-    font-size: rem(100);
-}
-
-.header-3 {
-    @extend .header-1;
     font-size: rem(56);
-}
+    line-height: 1.15;
 
-.header-4 {
-    @extend .header-1;
-    font-size: rem(32);
-}
-
-.subheader {
-    margin-top: 0;
-
-    font-family: $font-regular;
-    font-weight: normal;
-    font-size: rem(16);
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: em(2.75);
-    color: $color-font-weak;
+    margin-bottom: rem(1);
     
     @include breakpoint(medium) {
-        font-size: rem(20);
+        font-size: rem(80);
+        margin-bottom: rem(8);
     }
 
     @include breakpoint(large) {
-        font-size: rem(28);
+        font-size: rem(100);
+        margin-bottom: rem(14);
     }
 }
 
+.details-title {
+    @extend .header-1;
+    font-family: $font-regular;
+    font-size: rem(14);
+    letter-spacing: em(2.75);
+    line-height: 1.2;
+    color: $color-font-weak;
+
+}
+
+.details-value {
+    @extend .header-1;
+    font-size: rem(28);
+    margin-bottom: 0;
+}
+
 p {
+    margin-top: 0;
+    // margin-bottom: 0;
     font-size: rem(15);
     line-height: 1.65;
     color: $color-font-weak;

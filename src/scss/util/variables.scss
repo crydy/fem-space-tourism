@@ -5,6 +5,8 @@ $breakpoint-xlarge: 0;
 
 // main sizes
 $edge-indent: 24;
+$edge-indent-medium: 40;
+$edge-indent-large: 55;
 
 // transition rules
 $trans-dur: 150ms;
@@ -13,6 +15,7 @@ $transition-all: all $trans-dur $trans-tf;
 
 // Colors
 $color-theme: #0B0D17;
+$color-theme-2: #383B4B;
 $color-font-weak: #D0D6F9;
 $color-font-strong: #fff;
 
