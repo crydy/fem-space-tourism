@@ -1,6 +1,6 @@
 <header class="header">
 
-    <a href="index.html" class="header__logo-link">
+    <a href="@@logo-path" class="header__logo-link" tabindex="@@logo-tabindex">
         <span class="visually-hidden">Home page</span>
         <img src="/img/svg-icons/logo.svg" alt="logo">
     </a>
@@ -9,16 +9,40 @@
 
         <ol class="nav__list">
             <li class="nav__item">
-                <a href="#" class="nav__link">Home</a>
+                <a
+                    href="index.html"
+                    class="nav__link @@class.home"
+                    tabindex="@@tabindex.home"
+                >
+                    Home
+                </a>
             </li>
             <li class="nav__item">
-                <a href="#" class="nav__link">Destination</a>
+                <a
+                    href="destination.html"
+                    class="nav__link @@class.destination"
+                    tabindex="@@tabindex.destination"
+                >
+                    Destination
+                </a>
             </li>
             <li class="nav__item">
-                <a href="#" class="nav__link">Crew</a>
+                <a
+                    href="#"
+                    class="nav__link @@class.crew"
+                    tabindex="@@tabindex.crew"
+                >
+                    Crew
+                </a>
             </li>
             <li class="nav__item">
-                <a href="#" class="nav__link">Technology</a>
+                <a
+                    href="#"
+                    class="nav__link @@class.technology"
+                    tabindex="@@tabindex.technology"
+                >
+                    Technology
+                </a>
             </li>
         </ol>
 

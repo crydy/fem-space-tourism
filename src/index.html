@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <!-- Head -->
     @@include('html/globals/head.html', {
-        'title': 'Main page'
+        'title': 'Space tourism'
     })
+
 <body class="index-body">
+
     <!-- Header -->
-    @@include('html/globals/header.html', {})
+    @@include('html/globals/header.html', {
+        'logo-tabindex': '-1',
+        'logo-path': '#',
+        'class': {
+            'home': 'this-page'
+        },
+        'tabindex': {
+            'home': '-1'
+        }
+    })
+
 
     <h1 class="visually-hidden">Space tourism</h1>
     

@@ -1,24 +1,29 @@
 @use '../../util' as *;
 @use '../../globals/typography' as *;
 
-$top-indent: 24;
-$outline-size: 3; // + underline size
+// tab navigation outline 
+$outline-size: 3;
 $outline-offset: 4;
-
+// decorative bars
+$underline-width: $outline-size;
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: rem($top-indent) rem($edge-indent);
+    padding: rem(24) rem($edge-indent);
 
     @include breakpoint(medium) {
+        padding-top: 0;
         padding-bottom: 0;
     }
 
+    @include breakpoint(large) {
+        padding-top: rem(40);
+    }
+
     &__logo-link {
-        align-self: flex-start;
         user-select: none;
         @include transition(transform);
 
@@ -29,7 +34,7 @@ $outline-offset: 4;
 
         &:focus-visible {
             border-radius: 50%;
-            outline: #{rem($outline-size)} solid #{$color-font-1};
+            outline: #{rem($outline-size)} solid #{$color-font-strong};
             outline-offset: rem($outline-offset);
         }
     }
@@ -54,7 +59,7 @@ $outline-offset: 4;
             top: rem($outline-offset * -1);
             left: rem($outline-offset * -1);
 
-            outline: #{rem($outline-size) solid #{$color-font-1}};
+            outline: #{rem($outline-size) solid #{$color-font-strong}};
         }
     }
 }
@@ -93,7 +98,6 @@ $outline-offset: 4;
             padding-top: 0;
             
             // shift out of parent
-            margin-top: rem(-$top-indent);
             margin-right: rem(-$edge-indent);
         }
     }
@@ -114,7 +118,7 @@ $outline-offset: 4;
         }
     }
 
-    // --------------- numeration -----------------
+    // ------------- autonumeration ---------------
     @include counter-reset(nav-links-counter, -1);
 
     &__link {
@@ -134,8 +138,14 @@ $outline-offset: 4;
         word-wrap: nowrap;
         user-select: none;
 
+        &.this-page {
+            pointer-events: none;
+            cursor: not-allowed;
+            color: $color-font-strong;
+        }
+
         &:active {
-            color: $color-font-1;
+            color: $color-font-strong;
         }
 
         &::after {
@@ -143,7 +153,7 @@ $outline-offset: 4;
             content: '';
             bottom: -40%;
             right: 0;
-            width: rem($outline-size);
+            width: rem($underline-width);
             height: 180%;
             pointer-events: none;
             opacity: 0;
@@ -154,25 +164,33 @@ $outline-offset: 4;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: rem($outline-size);
+                height: rem($underline-width);
             }
+        }
+
+        &.this-page::after {
+            opacity: .2;
+            background-color: $color-font-weak;
         }
 
         &:hover::after,
         &:focus-visible::after {
             opacity: 1;
-            background-color: $color-font-2;
+            background-color: $color-font-weak;
         }
 
         &:active::after {
-            background-color: $color-font-1;
+            background-color: $color-font-strong;
+        }
+        &:active::after {
+            background-color: $color-font-strong;
         }
 
         &:focus-visible {
 
             // outline in keyboard navigation
             outline-offset: rem($outline-offset);
-            outline: #{rem($outline-size)} solid $color-font-2;
+            outline: #{rem($outline-size)} solid $color-font-weak;
 
             &::after {
 

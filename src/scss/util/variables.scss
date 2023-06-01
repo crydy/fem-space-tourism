@@ -1,14 +1,9 @@
-// breakpoints in px (px => em)
-// $breakpoint-medium: 375;
-
-
+// breakpoints in px (px => em in CSS mediaqueries)
 $breakpoint-medium: 768;
 $breakpoint-large: 1440;
 $breakpoint-xlarge: 0;
 
 // main sizes
-// $body-min-size: 280;
-// $body-max-size: 1440;
 $edge-indent: 24;
 
 // transition rules
@@ -18,14 +13,14 @@ $transition-all: all $trans-dur $trans-tf;
 
 // Colors
 $color-theme: #0B0D17;
-$color-font-1: #fff;
-$color-font-2: #D0D6F9;
+$color-font-weak: #D0D6F9;
+$color-font-strong: #fff;
 
 // Burger button setup
 $burger-button-height: 21;
 $burger-button-width: 24;
 $burger-bar-height: 3;
-$burger-button-color: $color-font-1;
+$burger-button-color: $color-font-strong;
 
 // fonts
 $font-headings: 'Bellefair', serif;

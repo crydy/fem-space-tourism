@@ -1,13 +1,14 @@
 @use '../util' as *;
 
-.button-explore {
-    $button-size: 150;
+$button-size: 150;
 
-    --button-size: #{rem($button-size)};
-    --outline-size: calc(var(--button-size) * 1.642);
+.button-explore {
+    --button-size: #{ rem($button-size) };
+    --outline-size: calc( var(--button-size) * 1.642 );
 
     @include reset-link;
     @include flex;
+
     width: var(--button-size);
     height: var(--button-size);
     position: relative;
@@ -16,16 +17,14 @@
     font-family: $font-headings;
     font-size: rem(20);
     text-transform: uppercase;
-    color: $color-theme;
-
-    background-color: $color-font-1;
-
     user-select: none;
+
+    color: $color-theme;
+    background-color: $color-font-strong;
 
     @include breakpoint(medium) {
         --button-size: #{rem($button-size * 1.61)};
         font-size: rem(32);
-
         margin-top: rem(156);
     }
 
@@ -34,11 +33,18 @@
         font-size: rem(32);
     }
 
+    &:visited {
+        color: $color-theme;
+    }
+
     &:focus {
         outline: none;
     }
 
     &::before {
+        @include transition(opacity);
+        @include frosted-glass;
+
         position: absolute;
         content: '';
         width: var(--outline-size);
@@ -46,9 +52,6 @@
         border-radius: inherit;
         z-index: -1;
         opacity: 0;
-
-        @include transition(opacity);
-        @include frosted-glass;
     }
 
     &:hover::before,

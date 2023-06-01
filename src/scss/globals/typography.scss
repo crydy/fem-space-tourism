@@ -7,7 +7,7 @@
 :root {
     font-family: $font-regular;
     font-weight: 200;
-    color: $color-font-1;
+    color: $color-font-strong;
 }
 
 .header-1 {
@@ -50,7 +50,7 @@
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: em(2.75);
-    color: $color-font-2;
+    color: $color-font-weak;
     
     @include breakpoint(medium) {
         font-size: rem(20);
@@ -64,7 +64,7 @@
 p {
     font-size: rem(15);
     line-height: 1.65;
-    color: $color-font-2;
+    color: $color-font-weak;
 
     @include breakpoint(medium) {
         font-size: rem(16);
@@ -83,9 +83,9 @@ p {
 
     text-transform: uppercase;
 
-    color: $color-font-2;
+    color: $color-font-weak;
     
     a:active {
-        color: $color-font-1;
+        color: $color-font-strong;
     }
 }

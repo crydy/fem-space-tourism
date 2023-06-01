@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Head -->
+    @@include('globals/head.html', {
+        'title': 'Space tourism'
+    })
+
+<body class="index-body">
+
+    <!-- Header -->
+    @@include('globals/header.html', {
+        'logo-tabindex': '0',
+        'logo-path': 'index.html',
+        'class': {
+            'destination': 'this-page'
+        },
+        'tabindex': {
+            'destination': '-1'
+        }
+    })
+
+
+    <h1 class="visually-hidden">Space tourism: destination</h1>
+    
+    <!-- Main content -->
+    <main class="destination">
+
+        <!-- REGULAR DATA FROM JSON
+
+            "name": "Moon",
+            "images": {
+                "png": "./assets/destination/image-moon.png",
+                "webp": "./assets/destination/image-moon.webp"
+            },
+            "description": "See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.",
+            "distance": "384,400 km",
+            "travel": "3 days"
+            
+        -->
+
+        <!-- Test blocks -->
+        <div id="name"></div>
+        <img id="image"></img>
+        <div id="description"></div>
+        <div id="distance"></div>
+        <div id="travel"></div>
+    </main>
+
+    <!-- Footer -->
+    @@include('globals/footer.html', {})
+</body>
+</html>
