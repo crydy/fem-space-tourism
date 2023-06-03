@@ -54,6 +54,9 @@
     &__infoblock {
 
         @include breakpoint(large) {
+            align-self: flex-start;
+            margin-top: rem(140);
+
             @include flex;
             align-items: flex-start;
         }
@@ -64,11 +67,12 @@
         margin-bottom: rem(31);
         min-width: max-content;
 
-        & > div {
+        & > div.tab-navigation {
             $arrow-distance: 55;
 
             position: relative;
 
+            
             &::before,
             &::after {
                 position: absolute;
@@ -166,7 +170,7 @@
         margin-bottom: rem(32);
         
         @include breakpoint(medium) {
-            max-width: rem(580);
+            max-width: rem(500);
 
             padding-bottom: rem(49);
             margin-bottom: rem(28);

@@ -31,7 +31,7 @@
             <p class="destination__preheader preheader">Pick your destination</p>
     
             <!-- Image -->
-            <img id="image" class="destination__image" src="#" alt="Moon image">
+            <img id="image" class="destination__image" src="#" alt="Moon image" data-js-fill="1">
         </div>
 
         <!-- Info -->
@@ -75,46 +75,25 @@
             </form>
 
             <!-- Planet name -->
-            <h2 class="destination__header header-2" id="name"></h2>
+            <h2 class="destination__header header-2" id="name" data-js-fill></h2>
 
             <!-- Description -->
-            <p id="description" class="destination__description"></p>
+            <p id="description" class="destination__description" data-js-fill></p>
 
             <!-- Details -->
             <div class="destination__details">
                 <div>
                     <span class="destination__title details-title">Avg. distance</span>
-                    <span class="destination__value details-value" id="distance"></span>
+                    <span class="destination__value details-value" id="distance" data-js-fill></span>
                 </div>
                 <div>
                     <span class="destination__title details-title">Est. travel time</span>
-                    <span class="destination__value details-value" id="travel"></span>
+                    <span class="destination__value details-value" id="travel" data-js-fill></span>
                 </div>
             </div>
 
         </div>
 
-
-        <!-- REGULAR DATA FROM JSON
-
-            "name": "Moon",
-            "images": {
-                "png": "./assets/destination/image-moon.png",
-                "webp": "./assets/destination/image-moon.webp"
-            },
-            "description": "See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.",
-            "distance": "384,400 km",
-            "travel": "3 days"
-
-        -->
-
-        <!-- Test blocks -->
-        
-        <!-- <div id="name"></div> -->
-        <!-- <img id="image"></img> -->
-        <!-- <div id="description"></div> -->
-        <!-- <div id="distance"></div> -->
-        <!-- <div id="travel"></div> -->
     </main>
 
     <!-- Footer -->

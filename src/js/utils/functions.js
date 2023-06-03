@@ -2,6 +2,8 @@
 export function fastLog() {
     // log(subject)
     window.log = (value) => console.log(value);
+    // dir(subject)
+    window.dir = (value) => console.dir(value);
     // subject.log()
     Object.prototype.log = function() {
         console.log(this);
