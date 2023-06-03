@@ -2,18 +2,7 @@
 
 
 .index {
-    background-image: url("/img/home/background-home-mobile.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    
-    @include breakpoint(medium) {
-        background-image: url("/img/home/background-home-tablet.jpg");
-    }
-    @include breakpoint(large) {
-        background-image: url("/img/home/background-home-desktop.jpg");
-    }
+    @include bg-image(home);
 
     &__main {
         @include edges;

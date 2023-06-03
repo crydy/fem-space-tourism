@@ -2,7 +2,60 @@
 @use '../util/functions.scss' as *;
 @use '../util/breakpoints.scss' as *;
 
-// ----------- Resets --------------
+// ------------------------ autonumeration ----------------------------
+// use (it will create ::before with numeration):
+// @include counter(my-counter)               =>   '1', '2', etc
+// @include counter(my-counter, '. ', true)   =>   '01. ', '02. ', etc
+
+@mixin counter($name, $separator: '', $leadingZero: false) {
+    
+    &:before {
+        counter-increment: $name;
+        content:
+            if($leadingZero,
+                counter($name, decimal-leading-zero),
+                counter($name) 
+            ) + " '" + #{$separator} + "'";
+    }
+}
+
+// apply to the parent with the same name
+// @include counter-reset(my-counter, -1)
+@mixin counter-reset($name, $start: 0) {
+    counter-reset: $name $start;
+}
+
+//              using example:
+// .parent {
+//     @include counter-reset(my-counter, -1); // start from 0;
+//
+//     .children {
+//         @include counter(my-counter, '- ', true); =>   '01- ', '02- ', etc
+//
+//         // stylization for numbers
+//         &:before {
+//             font-weight: bold;
+//             margin-right: 8em;
+//         }
+//     }
+// }
+
+//----------- multiset -------------
+
+@mixin set($value, $mob, $tab, $desk) {
+    #{$value}: #{$mob};
+    
+    @include breakpoint(medium) {
+        #{$value}: #{$tab};
+    }
+    
+    @include breakpoint(large) {
+        #{$value}: #{$desk};
+    }
+}
+
+//----------- Resets ---------------
+
 @mixin reset-button {
     margin: 0;
     padding: 0;
@@ -33,7 +86,8 @@
         color: inherit;
     }
 }
-// ---------------------------------
+
+//------------ bottons -------------
 
 @mixin button {
     display: block;
@@ -54,14 +108,13 @@
     padding-right: rem(20);
 }
 
+//---------- transition ------------
+
 @mixin transition($property: 'all', $trans-dur: $trans-dur) {
     transition: #{$property} $trans-dur $trans-tf;
 }
 
-@mixin limit-max-width {
-    max-width: rem($body-max-size);
-    margin: 0 auto;
-}
+//------------- flex ---------------
 
 @mixin flex {
     display: flex;
@@ -84,6 +137,8 @@
     align-items: center;
 }
 
+//------------ indents -------------
+
 @mixin edges {
     padding-left: rem($edge-indent);
     padding-right: rem($edge-indent);
@@ -99,12 +154,33 @@
     }
 }
 
+//---------- centration ------------
+
+@mixin center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+//------- project specific ---------
+
+@mixin bg-image($page-name) {
+    background-image: url("/img/#{$page-name}/background-#{$page-name}-mobile.jpg");
+    
+    @include breakpoint(medium) {
+        background-image: url("/img/#{$page-name}/background-#{$page-name}-tablet.jpg");
+    }
+
+    @include breakpoint(large) {
+        background-image: url("/img/#{$page-name}/background-#{$page-name}-desktop.jpg");
+    }
+}
+
 @mixin frosted-glass {
     background: rgba(53, 60, 75, 0.3);
     backdrop-filter: blur(10px);
 }
 
-// for preheaders numeration in inner pages
+// inner pages preheaders numeration
 @mixin prepend-number($number) {
     left: em(15);
     position: relative;
@@ -117,7 +193,8 @@
         position: absolute;
         content: '0#{$number}';
         font-weight: bold;
-        color: $color-theme-2;
+        color: $color-font-strong;
+        opacity: .25;
     }
 
     @include breakpoint(medium) {
@@ -129,47 +206,3 @@
         left: 0;
     }
 }
-
-// ----------------------------- numeration ---------------------------------
-// use:
-// (it will create ::before with numeration):
-// @include counter(my-counter)               =>   '1', '2', etc
-// @include counter(my-counter, '. ', true)   =>   '01. ', '02. ', etc
-
-@mixin counter($name, $separator: '', $leadingZero: false) {
-    
-    &:before {
-        counter-increment: $name;
-        content:
-            if($leadingZero,
-                counter($name, decimal-leading-zero),
-                counter($name) 
-            ) + " '" + #{$separator} + "'";
-    }
-}
-
-// apply to the parent with the same name
-// @include counter-reset(my-counter, -1)
-@mixin counter-reset($name, $start: 0) {
-    counter-reset: $name $start;
-}
-
-// --------------------------------------------------------------------------
-//
-//
-//                                 example:
-// 
-// .parent {
-//     @include counter-reset(my-counter, -1); // start from 0;
-//
-//     .children {
-//         @include counter(my-counter, '- ', true); =>   '01- ', '02- ', etc
-//
-//         // stylization for numbers
-//         &:before {
-//             font-weight: bold;
-//             margin-right: 8em;
-//         }
-//     }
-// }
-// --------------------------------------------------------------------------

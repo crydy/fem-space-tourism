@@ -4,6 +4,11 @@ import { mobileMenu } from  './modules/mobile-menu.js';
 
 const jsonDataPath = 'files/data.json';
 
+
+// create GULP tasks to separaterly manage data.json
+// menate errors in fetch API and webp-check function
+
+
 // start the code after HTML loading
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -43,9 +48,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 // keep extracted data
                 thisPageData = data;
                 // initial data to insert
-                let firstLevelData = thisPageData[0];
+                let InitialData = thisPageData[0];
                 // insert the data
-                populateTargetElements(firstLevelData);
+                populateTargetElements(InitialData);
             })
         };
 

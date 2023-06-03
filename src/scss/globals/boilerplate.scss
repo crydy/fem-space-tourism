@@ -1,5 +1,9 @@
 @use '../util' as *;
 
+html, body {
+    height: 100%;
+}
+
 html {
     font-size: 100%;
     box-sizing: border-box;
@@ -10,14 +14,26 @@ html {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     background-color: $color-theme;
     min-width: min-content;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
-// remove ghost indent at the bottom
+main {
+    // flex-grow: 1;
+}
+
+// remove ghost bottom indent
 a img {
     vertical-align: middle;
 }

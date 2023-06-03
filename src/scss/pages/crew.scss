@@ -1,0 +1,203 @@
+@use '../util' as *;
+
+
+.crew {
+    @include bg-image(crew);
+
+    &__main {
+        flex-grow: 1;
+        text-align: center;
+        @include edges;
+
+        @include breakpoint(medium) {
+            @include flex;
+        }
+
+        @include breakpoint(large) {
+            @include flex-row;
+            justify-content: space-between;
+
+            padding-left: 10vw;
+            padding-right: 10vw;
+        }
+    }
+
+    &__preheader {
+        @include prepend-number(2);
+
+        @include breakpoint(large) {
+            align-self: flex-start;
+            position: absolute;
+            
+            margin-top: 8vh;
+            left: calc(
+                #{em(30)} + 10vw
+            );
+        }
+    }
+
+    &__imgwrapper {
+        position: relative;
+
+        @include set(
+            margin-bottom,
+            rem(32), 0, 0
+        );
+
+        &::before { // img underline
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: rem(1);
+            left: 0;
+            bottom: rem(2);
+            background-color: $color-font-strong;
+            background: linear-gradient(
+                .25turn,
+                transparent,
+                $color-font-strong,
+                transparent
+            );
+            opacity: .25;
+        }
+
+        @include breakpoint(medium) {
+            order: 3;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        @include breakpoint(large) {
+            align-self: flex-end;
+        }
+    }
+
+    &__image {
+        position: relative;
+        
+        @include set(
+            width,
+            rem(177), rem(456), rem(568)
+        );
+
+        @include breakpoint(medium) {
+            bottom: -4px;
+        };
+
+        @include breakpoint(large) {
+            height: 80vh;
+            width: auto;
+        };
+    }
+
+    &__infowrapper {
+
+        @include breakpoint(medium) {
+            order: 2;
+            @include flex;
+            flex-direction: column-reverse;
+        }
+        
+        @include breakpoint(large) {
+            align-items: flex-start;
+            max-width: rem(500);
+
+            align-self: stretch;
+        }
+    }
+
+    &__buttonsblock {
+        @include flex-row;
+
+        @include set(
+            margin-bottom,
+            rem(32), rem(40), 10.5vh
+        );
+    }
+    
+    &__button {
+        $size: 24;
+        $size-visible: 10;
+
+        @include reset-button;
+        display: block;
+        isolation: isolate;
+        background-color: transparent;
+        
+        width: rem($size);
+        height: rem($size);
+        border-radius: 50%;
+        
+        position: relative;
+
+        &:focus-visible {
+            outline-offset: rem(-5);
+        }
+
+        &::before {
+            z-index: 1;
+            border-radius: inherit;
+            position: absolute;
+            content: '';
+            width: rem($size-visible);
+            height: rem($size-visible);
+            top: rem($size * .5 - $size-visible * .5);
+            left: rem($size * .5 - $size-visible * .5);
+            background-color: $color-font-strong;
+            opacity: .17;
+        }
+
+        &:hover::before,
+        &:focus-visible::before {
+            opacity: .5;
+        }
+
+        &:active::before {
+            opacity: 1;
+        }
+
+        &--checked {
+            pointer-events: none;
+
+            &::before {
+                opacity: .5;
+            }
+        }
+    }
+
+    &__infoblock {
+
+        @include breakpoint(large) {
+            text-align: left;
+            flex-grow: 1;
+            margin-top: 25vh
+        }
+    }
+
+    // &__role
+
+    &__name {
+        user-select: auto;
+    }
+
+    &__bio {
+        @include center;
+
+        @include set(
+            max-width,
+            rem(340), rem(458), none
+        );
+
+        @include set(
+            margin-bottom,
+            rem(104), rem(40), rem(40)
+        );
+
+        @include breakpoint(large) {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}

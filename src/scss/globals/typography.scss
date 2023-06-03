@@ -15,23 +15,41 @@
 
     font-family: $font-regular;
     font-weight: normal;
-    font-size: rem(16);
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: em(2.75);
     color: $color-font-strong;
 
-    margin-bottom: rem(32);
-    
-    @include breakpoint(medium) {
-        font-size: rem(20);
-        margin-bottom: rem(60);
-    }
-    
-    @include breakpoint(large) {
-        font-size: rem(28);
-        margin-bottom: rem(97);
-    }
+    @include set(
+        font-size,
+        rem(16), rem(20), rem(28)
+    );
+
+    @include set(
+        margin-bottom,
+        rem(32), rem(60), rem(97)
+    );
+}
+
+// crew memeber role
+.preheader-2 {
+    @extend .preheader;
+
+    line-height: 1.15;
+    letter-spacing: normal;
+
+    font-family: $font-headings;
+    opacity: .5;
+
+    @include set(
+        font-size,
+        rem(16), rem(24), rem(32)
+    );
+
+    @include set(
+        margin-bottom,
+        rem(8), rem(8), rem(15)
+    );
 }
 
 .header-1 {
@@ -43,44 +61,62 @@
     font-family: $font-headings;
     text-transform: uppercase;
     line-height: 1.25;
-    font-size: rem(80);
     font-weight: 400;
 
+    @include set(
+        font-size,
+        rem(80), rem(80), rem(150)
+    );
+
     @include breakpoint(medium) {
-        font-size: rem(150);
         line-height: 1.15;
     }
 }
 
 .header-2 {
     @extend .header-1;
-    font-size: rem(56);
     line-height: 1.15;
 
-    margin-bottom: rem(1);
-    
-    @include breakpoint(medium) {
-        font-size: rem(80);
-        margin-bottom: rem(8);
-    }
+    @include set(
+        font-size,
+        rem(56), rem(80), rem(100)
+    );
 
-    @include breakpoint(large) {
-        font-size: rem(100);
-        margin-bottom: rem(14);
-    }
+    @include set(
+        margin-bottom,
+        rem(1), rem(8), rem(14)
+    );
 }
 
-.details-title {
+// crew memeber name & technology name
+.header-3 {
+    @extend .header-1;
+    font-size: rem(24);
+    line-height: 1.15;
+
+    @include set(
+        font-size,
+        rem(24), rem(40), rem(56)
+    );
+
+    @include set(
+        margin-bottom,
+        rem(16), rem(16), rem(27)
+    );
+}
+
+
+
+.details-title { // destination page
     @extend .header-1;
     font-family: $font-regular;
     font-size: rem(14);
     letter-spacing: em(2.75);
     line-height: 1.2;
     color: $color-font-weak;
-
 }
 
-.details-value {
+.details-value { // destination page
     @extend .header-1;
     font-size: rem(28);
     margin-bottom: 0;
@@ -88,20 +124,17 @@
 
 p {
     margin-top: 0;
-    // margin-bottom: 0;
-    font-size: rem(15);
-    line-height: 1.65;
     color: $color-font-weak;
 
-    @include breakpoint(medium) {
-        font-size: rem(16);
-        line-height: 1.75;
-    }
+    @include set(
+        font-size,
+        rem(15), rem(16), rem(18)
+    );
 
-    @include breakpoint(medium) {
-        font-size: rem(18);
-        line-height: 1.78;
-    }
+    @include set(
+        line-height,
+        1.65, 1.75, 1.78
+    );
 }
 
 @mixin text-navigation {

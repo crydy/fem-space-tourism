@@ -2,19 +2,7 @@
 
 
 .destination {
-    background-image: url("/img/destination/background-destination-mobile.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    
-    @include breakpoint(medium) {
-        background-image: url("/img/destination/background-destination-tablet.jpg");
-    }
-    @include breakpoint(large) {
-        background-image: url("/img/destination/background-destination-desktop.jpg");
-    }
-
+    @include bg-image(destination);
 
     &__main {
         text-align: center;
@@ -193,7 +181,8 @@
             height: rem(1);
             left: 0;
             bottom: 0;
-            background-color: $color-theme-2;
+            background-color: $color-font-strong;
+            opacity: .25;
         }
     }
 

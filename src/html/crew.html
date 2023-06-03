@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Head -->
+    @@include('globals/head.html', {
+        'title': 'Space tourism'
+    })
+
+<body class="crew">
+
+    <!-- Header -->
+    @@include('globals/header.html', {
+        'logo-tabindex': '0',
+        'logo-path': 'index.html',
+        'class': {
+            'crew': 'this-page'
+        },
+        'tabindex': {
+            'crew': '-1'
+        }
+    })
+
+
+    <h1 class="visually-hidden">Space tourism: crew</h1>
+    
+    <!-- Main content -->
+    <main class="crew__main">
+
+        <!-- Pre-header -->
+        <p class="crew__preheader preheader">Meet your crew</p>
+
+        <!-- Image -->
+        <div class="crew__imgwrapper">
+            <img id="image" class="crew__image" src="#" alt="" data-js-fill>
+        </div>
+        
+        <!-- Info -->
+        <div class="crew__infowrapper">
+
+            <!-- Crew member switchers -->
+            <form class="crew__buttonsblock">
+                
+                <button
+                    class="crew__button crew__button--checked"
+                    data-slide-index="0"
+                    aria-label="Crew member 1"
+                    tabindex="-1"
+                >
+                    <span class="visually-hidden">Crew member 1</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="1" aria-label="Crew member 2" autofocus>
+                    <span class="visually-hidden">Crew member 2</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="2" aria-label="Crew member 3">
+                    <span class="visually-hidden">Crew member 3</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="3" aria-label="Crew member 4">
+                    <span class="visually-hidden">Crew member 4</span>
+                </button>
+
+            </form>
+
+            <!-- Info -->
+            <div class="crew__infoblock">
+                <!-- Role -->
+                <p id='role' class="crew__role preheader-2" data-js-fill></p>
+                <!-- Name -->
+                <h2 id="name" class="crew__name header-3" data-js-fill></h2>
+                <!-- Bio -->
+                <p id="bio" class="crew__bio" data-js-fill></p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    @@include('globals/footer.html', {})
+</body>
+</html>
