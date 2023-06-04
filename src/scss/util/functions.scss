@@ -9,4 +9,5 @@
 // px -> em
 @function em($pixels, $context: 16) {
 	@return (math.div($pixels, $context)) * 1em;
+	// @return ($pixels / $context) * 1em;
 }

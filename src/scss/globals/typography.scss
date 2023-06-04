@@ -65,7 +65,7 @@
 
     @include set(
         font-size,
-        rem(80), rem(80), rem(150)
+        rem(80), rem(150), rem(150)
     );
 
     @include breakpoint(medium) {

@@ -25,6 +25,10 @@
     &__preheader {
         @include prepend-number(2);
 
+        @include breakpoint(medium) {
+            margin-right: auto;
+        }
+
         @include breakpoint(large) {
             align-self: flex-start;
             position: absolute;
