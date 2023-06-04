@@ -184,6 +184,7 @@
 
     &__name {
         user-select: auto;
+        white-space: nowrap;
     }
 
     &__bio {
@@ -191,7 +192,7 @@
 
         @include set(
             max-width,
-            rem(340), rem(458), none
+            rem(340), rem(458), rem(444)
         );
 
         @include set(

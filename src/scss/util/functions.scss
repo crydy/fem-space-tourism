@@ -2,12 +2,11 @@
 
 // Source: https://css-tricks.com/snippets/sass/px-to-em-functions/
 // px -> rem
-@function rem($pixels, $context: 16) {
-	@return (math.div($pixels, $context)) * 1rem;
+@function rem($pixels) {
+	@return ($pixels * 0.0625) * 1rem;
 }
 
 // px -> em
-@function em($pixels, $context: 16) {
-	@return (math.div($pixels, $context)) * 1em;
-	// @return ($pixels / $context) * 1em;
+@function em($pixels) {
+	@return ($pixels * 0.0625) * 1em;
 }

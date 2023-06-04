@@ -19,29 +19,44 @@ export default function fillPage(
 
         // keep extracted data
         thisPageData = data;
-        // initial data to insert
-        let InitialData = thisPageData[0];
-        // insert the data
-        populateTargetElements(InitialData);
-
 
         switch (pageName) {
         
             case 'destination':
+
+                const choosenPlanet = localStorage.getItem('planet');
+
+                if(choosenPlanet) {
+                    // insert data for last choosen planet
+                    switchPlanetButtons(choosenPlanet);
+                    populateTargetElements(
+                        thisPageData.find(item => item.name === choosenPlanet)
+                    )
+                } else {
+                    // insert the initial data
+                    populateTargetElements(thisPageData[0]);
+                }
+
                 manageChoosePlanetButtons();
+
                 break;
     
             case 'crew':
+
+                // insert the initial data
+                populateTargetElements(thisPageData[0]);
+
                 manageCrewMemberSwithing(
                     crewSlideInterval,
                     crewSlideDelay
                 );
+
                 break;
     
             case 'technology':
                 break;
         }
-    })
+    });
 
 
     async function fetchDataForCurrentPage(url, pageName) {
@@ -49,6 +64,22 @@ export default function fillPage(
         const commonData = await response.json();
         const data = commonData[pageName];
         return data;
+    }
+
+
+    function switchPlanetButtons(choosenPlanet) {
+        Array.from(
+            document
+                .querySelector('.destination__buttonsblock')
+                .querySelectorAll(
+                    `input[type='radio']`
+                )
+        ).forEach(
+            radio => {
+                if (radio.checked) radio.checked = false;
+                if (radio.id === choosenPlanet) radio.checked = true;
+            }
+        )
     }
 
 
@@ -71,6 +102,9 @@ export default function fillPage(
 
             // get planet name from attribute 'for'
             const requiredName = event.target.htmlFor;
+
+            // keep for next visit
+            localStorage.setItem('planet', requiredName);
 
             // find subdata with the same planet name
             const relevantData = getRelevantData(requiredName);
@@ -96,7 +130,10 @@ export default function fillPage(
                     // get planet name
                     const requiredName = targetButton.htmlFor;
 
-                     // find subdata with the same planet name
+                    // keep for next visit
+                    localStorage.setItem('planet', requiredName);
+
+                    // find subdata with the same planet name
                     const relevantData = getRelevantData(requiredName);
 
                     // isert the data
