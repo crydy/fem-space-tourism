@@ -1,3 +1,8 @@
+import {
+    createStarsLayout,
+    createMovingStars
+} from "./moving-stars.js";
+
 
 export default function fillPage(
     jsonDataPath,
@@ -38,6 +43,11 @@ export default function fillPage(
                 }
 
                 manageChoosePlanetButtons();
+
+                // moving stars
+                const space = createStarsLayout();
+                document.body.appendChild(space);
+                createMovingStars(space);
 
                 break;
     

@@ -53,11 +53,13 @@ export function getBreakpoints() {
     return breakpoints;
 }
 
+
 export function isMobileMode() {
     return !window.matchMedia(
         `(min-width: ${getBreakpoints().medium})`
     ).matches;
 }
+
 
 export function isElemsTouchingX(elem1, elem2) {
     const rect1 = elem1.getBoundingClientRect();
