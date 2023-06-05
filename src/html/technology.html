@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+@@include('globals/head.html', {
+    'title': 'Space tourism'
+})
+
+<body class="technology">
+
+    <!-- Header -->
+    @@include('globals/header.html', {
+        'logo-tabindex': '0',
+        'logo-path': 'index.html',
+        'class': {
+            'technology': 'this-page'
+        },
+        'tabindex': {
+            'technology': '-1'
+        }
+    })
+
+
+    <h1 class="visually-hidden">Space tourism: technology</h1>
+    
+    <!-- Main content -->
+    <main class="technology__main">
+
+        <!-- Pre-header -->
+        <p class="technology__preheader preheader">technology page</p>
+
+        <!-- Wrapper -->
+        <div class="technology__content">
+
+            <!-- Image -->
+            <div class="technology__imgwrapper">
+                <img id="image" class="technology__image" src="#" alt="" data-js-fill>
+            </div>
+            
+            <!-- Infowrapper -->
+            <div class="technology__infowrapper">
+    
+                <!-- Buttons -->
+                <div class="technology__buttonsblock">
+
+                    <button
+                        class="technology__button technology__button--checked"
+                        data-slide-index="0"
+                        aria-label="technology type 1"
+                    >
+                        <span class="visually-hidden">Technology type 1</span>
+                    </button>
+    
+                    <button class="technology__button" data-slide-index="1" aria-label="Technology type 2">
+                        <span class="visually-hidden">Technology type 2</span>
+                    </button>
+    
+                    <button class="technology__button" data-slide-index="2" aria-label="Technology type 3">
+                        <span class="visually-hidden">Technology type 3</span>
+                    </button>
+    
+                </div>
+
+                <!-- Info -->
+                <div class="technology__infoblock">
+                    <!-- Title -->
+                    <h2 class="technology__title">The terminology...</h2>
+                    <!-- Name -->
+                    <h3 id="name" class="technology__name header-3" data-js-fill></h3>
+                    <!-- Description -->
+                    <p id="description" class="technology__description" data-js-fill></p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    @@include('globals/footer.html', {})
+</body>
+</html>

@@ -154,6 +154,21 @@
     }
 }
 
+@mixin ignore-edges {
+    margin-left: rem(-$edge-indent);
+    margin-right: rem(-$edge-indent);
+    
+    @include breakpoint(medium) {
+        margin-left: rem(-$edge-indent-medium);
+        margin-right: rem(-$edge-indent-medium);
+    }
+    
+    @include breakpoint(large) {
+        margin-left: rem(-$edge-indent-large);
+        margin-right: rem(-$edge-indent-large);
+    }
+}
+
 //---------- centration ------------
 
 @mixin center {

@@ -3,6 +3,7 @@ import {
     createMovingStars
 } from "./moving-stars.js";
 
+import { isDesktopMode } from "../utils/functions.js";
 
 export default function fillPage(
     jsonDataPath,
@@ -10,7 +11,6 @@ export default function fillPage(
     crewSlideInterval,
     crewSlideDelay
 ) {
-
     const currentPath = window.location.pathname; // '/index.html'
     const pageName = currentPath.split('/').pop().split('.')[0]; // 'index'
     
@@ -64,6 +64,10 @@ export default function fillPage(
                 break;
     
             case 'technology':
+
+                // insert the initial data
+                populateTargetElements(thisPageData[0]);
+
                 break;
         }
     });
@@ -229,7 +233,7 @@ export default function fillPage(
                 if (
                     button === currentButtonElement ||
                     button.classList.contains('crew__button--checked')
-                ) {
+                    ) {
                     button.classList.toggle('crew__button--checked')
                 };
             })
@@ -242,12 +246,27 @@ export default function fillPage(
         targetElements.forEach((element) => {
                 
             if (element.id === 'image') {
-                // choose image extention
-                const imgExtention = webpSupport ? 'webp' : 'png';
-                element.src = relevantData.images[imgExtention];
-                // set alt
-                element.alt = `${relevantData.name} photo`;
-            } else {
+
+                if (relevantData.images.png) { // in data.json different img extentions
+                    // choose image extention
+                    const imgExtention = webpSupport ? 'webp' : 'png';
+                    element.src = relevantData.images[imgExtention];
+                    // set alt
+                    element.alt = `${relevantData.name} photo`;
+                }
+
+                if (relevantData.images.portrait) { // in data.json different img ratio
+
+                    // get breakpoint to change img size
+                    element.src = (isDesktopMode()) ?
+                        relevantData.images.portrait :
+                        relevantData.images.landscape;
+
+                    // set alt
+                    element.alt = `${relevantData.name} photo`;
+                }
+
+            } else { // text data
                 element.innerText = relevantData[element.id];
             }
         })

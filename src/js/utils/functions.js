@@ -4,10 +4,6 @@ export function fastLog() {
     window.log = (value) => console.log(value);
     // dir(subject)
     window.dir = (value) => console.dir(value);
-    // subject.log()
-    Object.prototype.log = function() {
-        console.log(this);
-    };
 }
 
 
@@ -34,29 +30,48 @@ export function setTransitionTemperory(element, time, transitionProperty) { // t
 }
 
 
-export function getBreakpoints() {
+export function getBreakpoints(unit) {
     const dummyElement = document.createElement('div');
     dummyElement.style.display = 'none';
 
     document.body.appendChild(dummyElement);
 
     const computedStyles = window.getComputedStyle(dummyElement);
+    const fontSize = parseFloat(computedStyles.fontSize);
 
-    const breakpoints = {
+    // get emBreakpoints in em
+    const emBreakpoints = {
         medium: computedStyles.getPropertyValue('--breakpoint-medium'),
         large: computedStyles.getPropertyValue('--breakpoint-large'),
         xlarge: computedStyles.getPropertyValue('--breakpoint-xlarge'),
-    };
+    }
 
     document.body.removeChild(dummyElement);
 
-    return breakpoints;
+    if (unit === 'px') {
+
+        const pxBreakpoints = {};
+    
+        for (const key in emBreakpoints) {
+            pxBreakpoints[key] = parseFloat(emBreakpoints[key]) * fontSize;
+        }
+
+        return pxBreakpoints;
+    }
+
+    return emBreakpoints;
 }
 
 
 export function isMobileMode() {
     return !window.matchMedia(
         `(min-width: ${getBreakpoints().medium})`
+    ).matches;
+}
+
+export function isDesktopMode() {
+    return window.matchMedia(
+        `(min-width: ${getBreakpoints().large})`
     ).matches;
 }
 

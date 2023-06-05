@@ -1,0 +1,250 @@
+@use '../util' as *;
+
+
+.technology {
+    @include bg-image(technology);
+
+    &__main {
+        text-align: center;
+        @include edges;
+
+        @include breakpoint(medium) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        @include breakpoint(large) {
+            position: relative;
+        }
+    }
+
+    &__preheader {
+        @include prepend-number(3);
+
+        @include breakpoint(medium) {
+            margin-right: auto;
+        }
+
+        @include breakpoint(large) {
+            margin-left: calc(
+                #{em(30)} + 11.46vw
+            );
+
+            margin-bottom: rem(26);
+            margin-top: 2vh;
+        }
+    }
+
+    &__content {
+
+        @include breakpoint(large) {
+            display: grid;
+            grid-template-columns: 1fr 35.76%;
+            grid-template-columns: 1fr #{rem(515)};
+
+
+            position: absolute;
+            top: 10vh;
+            right: 0;
+            width: 100%;
+        }
+    }
+
+    &__imgwrapper {
+        @include ignore-edges;
+        order: 2;
+
+        @include set(
+            margin-bottom,
+            rem(34), rem(56), 0
+        );
+
+        @include breakpoint(large) {
+            justify-self: end;
+
+            margin-left: 0;
+            margin-right: 0;
+        };
+    }
+
+    &__image {
+        width: 100%;
+
+        @include breakpoint(large) {
+            max-height: 57.22vh;
+            width: auto;
+        }
+    }
+
+    &__infowrapper {
+        @include flex-column;
+        order: 1;
+        
+        @include set(
+            gap,
+            rem(26), rem(44), rem(80)
+        );
+
+        @include breakpoint(large) {
+            align-self: center;
+
+            flex-direction: row;
+            justify-content: flex-start;
+            
+            margin-left: 11.46vw;
+            margin-right: rem(100);
+        }
+    }
+
+    &__buttonsblock {
+        @include flex-row;
+        @include counter-reset(button-number);
+
+        @include set(
+            gap,
+            rem(16), rem(16), rem(32)
+        );
+
+        @include breakpoint(large) {
+            flex-direction: column;
+        }
+    }
+
+    &__button {
+        $size-mob: 40; $size-tab: 60; $size-desk: 80;
+
+        @include reset-button;
+        @include counter(button-number);
+
+        display: block;
+        background-color: $color-font-strong;
+        background-color: transparent;
+        border-radius: 50%;
+
+        position: relative;
+
+        @include set(
+            width,
+            rem($size-mob),
+            rem($size-tab),
+            rem($size-desk)
+        );
+
+        @include set(
+            height,
+            rem($size-mob),
+            rem($size-tab),
+            rem($size-desk)
+        );
+
+        // autonumeration inside
+        &::before {
+            @include flex;
+
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+
+            color: $color-font-strong;
+            font-family: $font-headings;
+
+            @include set(
+                font-size,
+                rem(16), rem(24), rem(32)
+            );
+        }
+
+        // border-holders
+        // for independant opacity context
+        &::after {
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+
+            border: #{rem(1)} solid $color-font-strong;
+            border-radius: 50%;
+            opacity: .25;
+            
+            @include transition(opacity);
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &:hover::after {
+            opacity: 1;
+        }
+
+        &:active::before,
+        &--checked::before {
+            filter: invert(100%);
+        }
+
+        &:active {
+            background-color: $color-font-strong;
+        }
+
+        &--checked {
+            pointer-events: none;
+            background-color: $color-font-strong;
+        }
+    }
+
+    &__infoblock {
+
+        @include breakpoint(large) {
+            align-self: stretch;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            text-align: start;
+
+            max-width: rem(444);
+        }
+    }
+
+    &__title {
+        text-transform: uppercase;
+        letter-spacing: em(2);
+        color: $color-font-weak;
+        font-weight: 200;
+        line-height: 1.2;
+        margin-top: 0;
+
+        @include set(
+            font-size,
+            rem(14), rem(16), rem(16)
+        );
+
+        @include set(
+            margin-bottom,
+            rem(9), rem(16), rem(11)
+        );
+    }
+
+    &__name {
+        white-space: nowrap;
+    }
+
+    &__description {
+
+        @include set(
+            max-width,
+            rem(440), rem(460), rem(600)
+        );
+
+        @include set(
+            margin-bottom,
+            rem(81), rem(97), 0
+        )
+    }
+}

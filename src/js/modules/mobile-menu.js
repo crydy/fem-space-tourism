@@ -1,4 +1,4 @@
-import { setTransitionTemperory, isMobileMode, isElemsTouchingX } from "../utils/functions.js";
+import { setTransitionTemperory, isMobileMode } from "../utils/functions.js";
 import { mobileMenuSetup as setup } from "../utils/mobile-menu-setup.js";
 
 
