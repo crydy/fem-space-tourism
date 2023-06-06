@@ -19,8 +19,7 @@ export default function fillPage(
     
     if (pageName === 'index') return;
 
-    // get data from json
-    fetchDataForCurrentPage(jsonDataPath, pageName).then(data => {
+    getCurrentPageData(jsonDataPath, pageName).then(data => {
 
         // keep extracted data
         thisPageData = data;
@@ -56,6 +55,7 @@ export default function fillPage(
                 // insert the initial data
                 populateTargetElements(thisPageData[0]);
 
+                // swithers and autoswithing
                 manageCrewMemberSwithing(
                     crewSlideInterval,
                     crewSlideDelay
@@ -72,12 +72,32 @@ export default function fillPage(
         }
     });
 
+    // Caching data only once, not checking data.json update!
+    async function getCurrentPageData(url, pageName) {
+        const KEY = 'space-tourism-data';
+        let commonData;
 
-    async function fetchDataForCurrentPage(url, pageName) {
-        const response = await fetch(url);
-        const commonData = await response.json();
-        const data = commonData[pageName];
-        return data;
+        if (localStorage.getItem(KEY)) {
+            console.log('Data have read from local storage');
+
+            // get data from local storage
+            commonData = JSON.parse(
+                localStorage.getItem(KEY)
+            )
+
+        } else {
+            console.log('Data have read from data.json and saved in local storage');
+
+            // get data from data.json
+            const response = await fetch(url);
+            commonData = await response.json();
+
+            // save for future use
+            localStorage.setItem(KEY, JSON.stringify(commonData));
+        }
+
+        const thisPageData = commonData[pageName];
+        return thisPageData;
     }
 
 
