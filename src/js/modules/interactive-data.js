@@ -29,13 +29,13 @@ export default function fillPage(
         
             case 'destination':
 
-                const choosenPlanet = localStorage.getItem('planet');
+                const chosenPlanet = sessionStorage.getItem('planet');
 
-                if(choosenPlanet) {
+                if(chosenPlanet) {
                     // insert data for last choosen planet
-                    switchPlanetButtons(choosenPlanet);
+                    switchPlanetButtons(chosenPlanet);
                     populateTargetElements(
-                        thisPageData.find(item => item.name === choosenPlanet)
+                        thisPageData.find(item => item.name === chosenPlanet)
                     )
                 } else {
                     // insert the initial data
@@ -81,7 +81,7 @@ export default function fillPage(
     }
 
 
-    function switchPlanetButtons(choosenPlanet) {
+    function switchPlanetButtons(chosenPlanet) {
         Array.from(
             document
                 .querySelector('.destination__buttonsblock')
@@ -91,7 +91,7 @@ export default function fillPage(
         ).forEach(
             radio => {
                 if (radio.checked) radio.checked = false;
-                if (radio.id === choosenPlanet) radio.checked = true;
+                if (radio.id === chosenPlanet) radio.checked = true;
             }
         )
     }
@@ -118,7 +118,7 @@ export default function fillPage(
             const requiredName = event.target.htmlFor;
 
             // keep for next visit
-            localStorage.setItem('planet', requiredName);
+            sessionStorage.setItem('planet', requiredName);
 
             // find subdata with the same planet name
             const relevantData = getRelevantData(requiredName);
@@ -145,7 +145,7 @@ export default function fillPage(
                     const requiredName = targetButton.htmlFor;
 
                     // keep for next visit
-                    localStorage.setItem('planet', requiredName);
+                    sessionStorage.setItem('planet', requiredName);
 
                     // find subdata with the same planet name
                     const relevantData = getRelevantData(requiredName);
