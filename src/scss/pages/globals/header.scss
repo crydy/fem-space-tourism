@@ -70,10 +70,12 @@ $underline-width: $outline-size;
 
 .nav {
     @include breakpoint(medium) {
-        margin-left: rem($edge-indent);
+        margin-left: rem($edge-indent-medium);
     }
 
     &__list {
+        --nav-gap: #{rem($edge-indent-medium)};
+
         @include reset-list;
         @include text-navigation;
         @include frosted-glass;
@@ -90,15 +92,16 @@ $underline-width: $outline-size;
 
         @include breakpoint(medium) {
             flex-direction: row;
-            column-gap: rem(35);
+            column-gap: var(--nav-gap);
             flex-wrap: wrap;
 
             min-height: auto;
             min-width: auto;
             width: auto;
     
-            padding-left: rem(35);
-            padding-right: rem(35);
+            padding-left: var(--nav-gap);
+            padding-right: var(--nav-gap);
+
             padding-top: 0;
             
             // shift out of parent
@@ -106,6 +109,12 @@ $underline-width: $outline-size;
         }
         
         @include breakpoint(large) {
+            --nav-gap: #{rem(48)};
+
+            column-gap: rem(48);
+            padding-right: rem(165);
+            padding-left: rem(123);
+
             // shift out of parent
             margin-right: rem(-$edge-indent-large);
         }

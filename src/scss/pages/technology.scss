@@ -23,6 +23,7 @@
 
         @include breakpoint(medium) {
             margin-right: auto;
+            margin-left: rem($edge-indent-medium);
         }
 
         @include breakpoint(large) {
