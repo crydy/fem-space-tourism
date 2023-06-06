@@ -11,8 +11,8 @@ export default function fillPage(
     crewSlideInterval,
     crewSlideDelay
 ) {
-    const currentPath = window.location.pathname; // '/index.html'
-    const pageName = currentPath.split('/').pop().split('.')[0]; // 'index'
+    const currentPath = window.location.pathname; // '/pagename.html'
+    const pageName = currentPath.split('/').pop().split('.')[0]; // 'pagename'
     
     const targetElements = document.querySelectorAll('[data-js-fill]');
     let thisPageData;
@@ -21,7 +21,6 @@ export default function fillPage(
 
     getCurrentPageData(jsonDataPath, pageName).then(data => {
 
-        // keep extracted data
         thisPageData = data;
 
         switch (pageName) {
@@ -67,6 +66,8 @@ export default function fillPage(
 
                 // insert the initial data
                 populateTargetElements(thisPageData[0]);
+
+                manageIMGResize();
 
                 break;
         }
@@ -258,6 +259,21 @@ export default function fillPage(
                 };
             })
         }
+    }
+
+
+    function manageIMGResize() {
+        const imgElement = document.querySelector('#image');
+        const nameElement = document.querySelector('#name');
+
+        const imgUrlSet = thisPageData.find(
+            array => array.name.toLowerCase() === nameElement.innerText.toLowerCase()
+        ).images;
+            
+        window.addEventListener('resize', () => {
+            if (isDesktopMode()) imgElement.src = imgUrlSet.portrait;
+            else imgElement.src = imgUrlSet.landscape;
+        });
     }
 
 
