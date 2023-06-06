@@ -10,7 +10,7 @@
 
     <!-- Header -->
     @@include('globals/header.html', {
-        'logo-tabindex': '0',
+        'logo-tabindex': '-1',
         'logo-path': 'index.html',
         'class': {
             'technology': 'this-page'
@@ -40,13 +40,14 @@
             <!-- Infowrapper -->
             <div class="technology__infowrapper">
     
-                <!-- Buttons -->
+                <!-- Buttons (autonumeration in CSS) -->
                 <div class="technology__buttonsblock">
 
                     <button
                         class="technology__button technology__button--checked"
                         data-slide-index="0"
                         aria-label="technology type 1"
+                        tabindex="-1";
                     >
                         <span class="visually-hidden">Technology type 1</span>
                     </button>

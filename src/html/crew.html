@@ -10,7 +10,7 @@
 
     <!-- Header -->
     @@include('globals/header.html', {
-        'logo-tabindex': '0',
+        'logo-tabindex': '-1',
         'logo-path': 'index.html',
         'class': {
             'crew': 'this-page'
@@ -44,6 +44,7 @@
                     class="crew__button crew__button--checked"
                     data-slide-index="0"
                     aria-label="Crew member 1"
+                    tabindex="-1"
                 >
                     <span class="visually-hidden">Crew member 1</span>
                 </button>

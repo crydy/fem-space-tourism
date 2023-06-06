@@ -68,7 +68,7 @@ export default function fillPage(
                 populateTargetElements(thisPageData[0]);
 
                 manageIMGResize();
-
+                manageTechnologySwithers();
                 break;
         }
     });
@@ -185,10 +185,10 @@ export default function fillPage(
                     event.currentTarget.firstElementChild.classList.remove('tab-navigation');
                 }
             });
-            document.addEventListener('keydown', (event) => {
+            window.addEventListener('keydown', (event) => {
                 if (event.key === 'Tab') isTabNavigation = true;
             });
-            document.addEventListener('mousedown', () => {
+            window.addEventListener('mousedown', () => {
                 isTabNavigation = false;
             });
         }
@@ -203,7 +203,7 @@ export default function fillPage(
     function manageCrewMemberSwithing(crewSlidingInterval, delayAfterClick) {
 
         const buttonsBlock = document.querySelector('.crew__buttonsblock');
-        const buttons = buttonsBlock.children;
+        const buttonsNodeList = buttonsBlock.children;
 
         let currentSlideIndex = 0;
 
@@ -222,7 +222,7 @@ export default function fillPage(
 
         function changeSlide(index) {
             populateTargetElements(thisPageData[index]);
-            changeActiveButton(buttons[index]);
+            SwitchActiveButton(buttonsNodeList[index]);
             currentSlideIndex = index;
         }
 
@@ -230,10 +230,9 @@ export default function fillPage(
             return setInterval(() => {
                 // loop in buttons amount
                 currentSlideIndex++;
-                if (currentSlideIndex > buttons.length - 1) currentSlideIndex = 0;
+                if (currentSlideIndex > buttonsNodeList.length - 1) currentSlideIndex = 0;
                 
                 changeSlide(currentSlideIndex);
-
             }, crewSlidingInterval);
         }
 
@@ -249,33 +248,89 @@ export default function fillPage(
             }, ms);
         }
 
-        function changeActiveButton(currentButtonElement) {
-            Array.from(buttons).forEach((button)=> {
-                if (
-                    button === currentButtonElement ||
-                    button.classList.contains('crew__button--checked')
-                    ) {
-                    button.classList.toggle('crew__button--checked')
-                };
-            })
+        function SwitchActiveButton(currentButtonElement) {
+            toggleClassesInButtonsBlock(currentButtonElement, buttonsNodeList, 'crew__button--checked');
+            switchTabindexesInButtonsBlock(currentButtonElement, buttonsNodeList);
         }
     }
 
 
-    function manageIMGResize() {
-        const imgElement = document.querySelector('#image');
-        const nameElement = document.querySelector('#name');
+    function manageTechnologySwithers() {
+        const buttonsBlock = document.querySelector('.technology__buttonsblock');
+        const buttonsNodeList = buttonsBlock.children;
+        
+        buttonsBlock.addEventListener('click', onClick);
+        
+        function onClick(event) {
+            const button = event.target;
+            const index = Array.from(buttonsNodeList).indexOf(button);
 
-        const imgUrlSet = thisPageData.find(
-            array => array.name.toLowerCase() === nameElement.innerText.toLowerCase()
-        ).images;
-            
-        window.addEventListener('resize', () => {
-            if (isDesktopMode()) imgElement.src = imgUrlSet.portrait;
-            else imgElement.src = imgUrlSet.landscape;
-        });
+            if (index !== -1) { // manage active buttons only
+                populateTargetElements(thisPageData[index]);
+                switchActiveButton(event);
+            }
+        }
+
+        function switchActiveButton(event) {
+            const targetButton = event.target;
+            toggleClassesInButtonsBlock(targetButton, buttonsNodeList, 'technology__button--checked')
+            switchTabindexesInButtonsBlock(targetButton, buttonsNodeList);
+        }
+    }
+    
+    function toggleClassesInButtonsBlock(targetButtonElement, buttonsNodeList, className) {
+        Array.from(buttonsNodeList).forEach((button)=> {
+            if (
+                button === targetButtonElement ||
+                button.classList.contains(className)
+            ) {
+                button.classList.toggle(className);
+            };
+        })
     }
 
+    function switchTabindexesInButtonsBlock(targetButtonElement, buttonsNodeList) {
+        Array.from(buttonsNodeList).forEach((button)=> {
+
+            // exclude current button from tab navigation
+            if (button === targetButtonElement) {
+                button.setAttribute('tabindex', '-1');
+            };
+
+            // include previous one which was excluded
+            if (
+                button.getAttribute('tabindex') === '-1' &&
+                button !== targetButtonElement
+            ) {
+                button.setAttribute('tabindex', '0');
+            }
+        })
+    }
+
+    function manageIMGResize() {
+        // some additional logic here to trigger
+        // evaluations only when the breakpoint passed
+
+        let isDesktopState = false;
+        
+        window.addEventListener('resize', () => {
+            const currentIsDesktopState = isDesktopMode();
+
+            if(isDesktopState !== currentIsDesktopState) {
+                isDesktopState = currentIsDesktopState;
+
+                const imgElement = document.querySelector('#image');
+                const nameElement = document.querySelector('#name');
+        
+                const imgUrlSet = thisPageData.find(
+                    array => array.name.toLowerCase() === nameElement.innerText.toLowerCase()
+                ).images;
+    
+                if (isDesktopMode()) imgElement.src = imgUrlSet.portrait;
+                else imgElement.src = imgUrlSet.landscape;
+            };
+        });
+    }
 
     function populateTargetElements(relevantData) {
 
