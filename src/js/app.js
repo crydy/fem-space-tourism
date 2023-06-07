@@ -1,7 +1,7 @@
 import { fastLog } from './utils/functions.js';
 import waitDOMContent from './utils/dom-waiting.js';
 import setBrowserWEBPSupportMark from  './utils/webp-support.js';
-import { mobileMenu } from  './modules/mobile-menu.js';
+import { setupMobileMenu } from  './modules/mobile-menu.js';
 import fillPage from './modules/interactive-data.js';
 
 const jsonDataPath = 'files/data.json';
@@ -15,7 +15,7 @@ waitDOMContent()
 .then(() => setBrowserWEBPSupportMark())
 .then(webpSupport => {
 
-    mobileMenu();
+    setupMobileMenu();
     
     fillPage(
         jsonDataPath,

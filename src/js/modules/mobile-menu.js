@@ -1,14 +1,14 @@
 import { setTransitionTemperory, isMobileMode } from "../utils/functions.js";
-import { mobileMenuSetup as setup } from "../utils/mobile-menu-setup.js";
+import { mobileMenuSettings as setup } from "../utils/mobile-menu-setup.js";
 
 
-export function mobileMenu() {
+export function setupMobileMenu() {
 
     const parentElement = document.querySelector(`.${setup.parentElement}`);
+    const burgerElement = createBurgerButton();
     const menuElement = setupSideMenu(
         document.querySelector(`.${setup.menuElement}`)
     );
-    const burgerElement = createBurgerButton();
     const overlay = createOverlay();
 
     parentElement.appendChild(burgerElement);
@@ -48,8 +48,10 @@ export function mobileMenu() {
         }
     });
 
+    
     // -----------------------------------------------
     function setupSideMenu(sideMenu) {
+        let loopTabNavigationReset;
         
         sideMenu.hide = (noTransition) => {
             if (noTransition) {
@@ -60,6 +62,8 @@ export function mobileMenu() {
             }
             sideMenu.style.transform = 'translateX(100%)';
             sideMenu.classList.remove('opened');
+
+            window.removeEventListener('keydown', loopTabNavigationReset);
         };
     
         sideMenu.show = (noTransition) => {
@@ -75,6 +79,12 @@ export function mobileMenu() {
                     sideMenu.classList.add('opened');
                 }, setup.shortDelay);
             }
+
+            // loop tab navitagion in open menu
+            loopTabNavigationReset = loopTabNavigation(
+                burgerElement,
+                ...sideMenu.querySelectorAll('a:not([tabindex="-1"])')
+            );
         };
 
         sideMenu.setPositionAbsolute = () => {
@@ -258,7 +268,28 @@ export function mobileMenu() {
         burgerElement.cross();
     }
 
-    function loopTabNavigationInsideMobileMenu() {
+    function loopTabNavigation(...elems) {
 
+        const firstElem = elems[0]
+        const lastElem = elems[elems.length - 1];
+        
+        window.addEventListener('keydown', onKeydown);
+
+        function onKeydown(event) {
+            if (event.key === 'Tab' && menuElement.classList.contains('opened')) {
+                
+                if (!event.shiftKey && event.target === lastElem) {
+                    event.preventDefault();
+                    firstElem.focus();
+                }
+                
+                if (event.shiftKey && event.target === firstElem) {
+                    event.preventDefault();
+                    lastElem.focus();
+                }
+            }
+        }
+
+        return onKeydown;
     }
 }

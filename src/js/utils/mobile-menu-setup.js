@@ -1,4 +1,4 @@
-export const mobileMenuSetup = {
+export const mobileMenuSettings = {
     // clases
     parentElement: 'header',
     menuElement: 'header__nav',
