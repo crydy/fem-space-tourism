@@ -12,27 +12,41 @@ export function randomInteger(min, max) {
     return Math.floor(rand);
 }
 
-
+const activeElements = new Map(); // store elements that are in transition mode
 export function replaceWithTransition(element, className, callback) {
-    const TRANSITION_TIME = 400;
-    const DELAY = 200;
     
+    const TRANSITION_TIME = 250;
+    const DELAY = 50;
+
+    let elemTimerID;
+ 
     // 1 start transition
-    setTransitionTemperory(element, TRANSITION_TIME);
-    element.classList.add(className);
+
+    if (!activeElements.has(element)) {
+        setTransitionTemperory(element, TRANSITION_TIME);
+        element.classList.add(className);
+    }
 
     // 2 change data in element
+
     if(callback) {
         setTimeout(() => {
             callback();
         }, TRANSITION_TIME);
     }
 
-    // 3 start back transition
-    setTimeout(() => {
+    // 3 start backward transition (anew for element which was already in transition state)
+
+    if (activeElements.has(element)) clearTimeout(activeElements.get(element));
+
+    elemTimerID = setTimeout(() => {
         setTransitionTemperory(element, TRANSITION_TIME);
         element.classList.remove(className);
+
+        activeElements.delete(element);
     }, TRANSITION_TIME + DELAY);
+
+    if (!activeElements.has(element)) activeElements.set(element, elemTimerID);
 }
 
 
@@ -91,6 +105,7 @@ export function isMobileMode() {
         `(min-width: ${getBreakpoints().medium})`
     ).matches;
 }
+
 
 export function isDesktopMode() {
     return window.matchMedia(
