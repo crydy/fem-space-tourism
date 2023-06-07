@@ -14,12 +14,11 @@ export function mobileMenu() {
     parentElement.appendChild(burgerElement);
     document.body.appendChild(overlay);
 
-    // keep button state
-    let manuallyOpened = false;
+    let isMenuManuallyOpened = false;
 
     // toggle by click on button
     burgerElement.addEventListener('click', () => {
-        manuallyOpened = !manuallyOpened;
+        isMenuManuallyOpened = !isMenuManuallyOpened;
         const isOpened = burgerElement.classList.contains('opened');
         if (isOpened) close();
         else open();
@@ -27,17 +26,16 @@ export function mobileMenu() {
 
     // close by click on overlay
     overlay.addEventListener('click', () => {
-        manuallyOpened = !manuallyOpened;
+        isMenuManuallyOpened = !isMenuManuallyOpened;
         close();
     });
 
     // change menu and button state with viewport resize
     visualViewport.addEventListener("resize", () => {
 
-                
         if (isMobileMode()) {
 
-            if (!manuallyOpened) menuElement.hide('ho transition');
+            if (!isMenuManuallyOpened) menuElement.hide('ho transition');
 
             burgerElement.hidden = false;
             menuElement.setPositionAbsolute();
@@ -48,21 +46,6 @@ export function mobileMenu() {
             menuElement.show('no transition');
             menuElement.clearPositionAbsolute();
         }
-
-
-
-
-        // const blockElement = parentElement;
-
-        // if (blockElement.scrollWidth > blockElement.clientWidth) {
-        //     // Block is overflowing horizontally
-        //     // Handle the overflow event here
-        //     console.log('Block is overflowing horizontally');
-        //   } else {
-        //     // Block is not overflowing horizontally
-        //     // Handle the non-overflow event here
-        //     console.log('Block is not overflowing horizontally');
-        //   }
     });
 
     // -----------------------------------------------
@@ -149,7 +132,7 @@ export function mobileMenu() {
         function createCoreButton() {
             const coreButton = document.createElement('button');
             coreButton.id = 'burger-button';
-            coreButton.setAttribute('tabindex', '0');
+            coreButton.setAttribute('tabindex', '1');
             coreButton.style.cursor = 'pointer';
             coreButton.style.margin = 0;
             coreButton.style.padding = 0;
@@ -275,11 +258,7 @@ export function mobileMenu() {
         burgerElement.cross();
     }
 
-    // function isOverflowed(element) {
-    //     if (element.scrollWidth > element.clientWidth) {
-    //         console.log('Block is overflowing horizontally');
-    //     } else {
-    //         console.log('Block is not overflowing horizontally');
-    //     }
-    // }
+    function loopTabNavigationInsideMobileMenu() {
+
+    }
 }

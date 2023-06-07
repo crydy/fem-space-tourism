@@ -5,7 +5,7 @@ export const mobileMenuSetup = {
 
     // timing
     transitionTime: .5,
-    transTimingFunc: 'ease',
+    transTimingFunc: 'ease-in-out',
 
     // button setup (px sizes - will be converted in rem))
     buttonColor: '#fff',
@@ -21,6 +21,6 @@ export const mobileMenuSetup = {
     menuZIndex: 2,
     overlayZIndex: 1,
 
-    // delay between element appearance and his transition
+    // delay between element appearance and it's transition
     shortDelay: 20,
 }

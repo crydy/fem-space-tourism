@@ -84,8 +84,8 @@ $underline-width: $outline-size;
         flex-direction: column;
         
         min-height: 100vh;
-        min-width: rem(170);
-        width: 68vw;
+        // min-width: rem(170);
+        // width: 68vw;
         
         padding-left: rem(32);
         padding-top: rem(118);
@@ -122,6 +122,8 @@ $underline-width: $outline-size;
 
     &__item {
         position: relative;
+
+        padding-right: rem(90);
         
         @include breakpoint(medium) {
             padding: rem(36.5) 0;
@@ -153,7 +155,7 @@ $underline-width: $outline-size;
     &__link {
         @include reset-link;
         @include transition(outline-offset);
-        word-wrap: nowrap;
+        white-space: nowrap;
         user-select: none;
 
         &.this-page {
