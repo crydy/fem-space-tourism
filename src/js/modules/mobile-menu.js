@@ -16,7 +16,7 @@ export function setupMobileMenu() {
 
     let isMenuManuallyOpened = false;
 
-    // toggle by click on button
+    // toggle menu by button click
     burgerElement.addEventListener('click', () => {
         isMenuManuallyOpened = !isMenuManuallyOpened;
         const isOpened = burgerElement.classList.contains('opened');
@@ -31,20 +31,25 @@ export function setupMobileMenu() {
     });
 
     // change menu and button state with viewport resize
+    let previousState = isMobileMode();
     visualViewport.addEventListener("resize", () => {
 
-        if (isMobileMode()) {
+        if (previousState !== isMobileMode()) { // breakpoint passed
+            previousState = isMobileMode();
 
-            if (!isMenuManuallyOpened) menuElement.hide('ho transition');
-
-            burgerElement.hidden = false;
-            menuElement.setPositionAbsolute();
-
-        } else {
-
-            burgerElement.hidden = true;
-            menuElement.show('no transition');
-            menuElement.clearPositionAbsolute();
+            if (isMobileMode()) {
+    
+                if (!isMenuManuallyOpened) menuElement.hide('ho transition');
+    
+                burgerElement.hidden = false;
+                menuElement.setPositionAbsolute();
+    
+            } else {
+    
+                burgerElement.hidden = true;
+                menuElement.show('no transition');
+                menuElement.clearPositionAbsolute();
+            }
         }
     });
 
