@@ -1,0 +1,19 @@
+.js-transition-text {
+    opacity: 0;
+    filter: blur(15px);
+    transform: scale(95%);
+}
+
+.js-transition-image {
+    opacity: 0;
+}
+
+.js-transition-image-planet {
+    opacity: 0;
+    transform: rotate(5deg);
+}
+
+.js-transition-image-technology {
+    opacity: 0;
+    transform: scaleY(0%);
+}

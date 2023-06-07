@@ -3,7 +3,7 @@ import {
     createMovingStars
 } from "./moving-stars.js";
 
-import { isDesktopMode } from "../utils/functions.js";
+import { isDesktopMode, replaceWithTransition } from "../utils/functions.js";
 
 export default function fillPage(
     jsonDataPath,
@@ -11,6 +11,11 @@ export default function fillPage(
     crewSlideInterval,
     crewSlideDelay
 ) {
+    const TRANSITION_CLASS_TEXT = 'js-transition-text';
+    const TRANSITION_CLASS_IMAGE = 'js-transition-image';
+    const TRANSITION_CLASS_IMAGE_PLANET = 'js-transition-image-planet';
+    const TRANSITION_CLASS_IMAGE_TECHNOLOGY = 'js-transition-image-technology';
+
     const currentPath = window.location.pathname; // '/pagename.html'
     const pageName = currentPath.split('/').pop().split('.')[0]; // 'pagename'
     
@@ -42,7 +47,7 @@ export default function fillPage(
 
                 manageChoosePlanetButtons();
 
-                // moving stars
+                // inset moving stars
                 const space = createStarsLayout();
                 document.body.appendChild(space);
                 createMovingStars(space);
@@ -145,11 +150,18 @@ export default function fillPage(
             const relevantData = getRelevantData(requiredName);
 
             // insert new data
-            populateTargetElements(relevantData);
+            populateTargetElements(relevantData, 'transition');
+            transitionAdditionalElements('.details-title');
         }
 
         function onKeydown(event) {
-            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+
+            if (
+                event.key === 'ArrowLeft' ||
+                event.key === 'ArrowRight' ||
+                event.key === 'ArrowUp' ||
+                event.key === 'ArrowDown'
+            ) {
 
                 // show arrows
                 isTabNavigation = true;
@@ -172,7 +184,8 @@ export default function fillPage(
                     const relevantData = getRelevantData(requiredName);
 
                     // isert the data
-                    populateTargetElements(relevantData);
+                    populateTargetElements(relevantData, 'transition');
+                    transitionAdditionalElements('.details-title');
                 }, 10)
             }
         }
@@ -221,7 +234,7 @@ export default function fillPage(
         });
 
         function changeSlide(index) {
-            populateTargetElements(thisPageData[index]);
+            populateTargetElements(thisPageData[index], 'transition');
             SwitchActiveButton(buttonsNodeList[index]);
             currentSlideIndex = index;
         }
@@ -266,7 +279,7 @@ export default function fillPage(
             const index = Array.from(buttonsNodeList).indexOf(button);
 
             if (index !== -1) { // manage active buttons only
-                populateTargetElements(thisPageData[index]);
+                populateTargetElements(thisPageData[index], 'transition');
                 switchActiveButton(event);
             }
         }
@@ -277,6 +290,7 @@ export default function fillPage(
             switchTabindexesInButtonsBlock(targetButton, buttonsNodeList);
         }
     }
+
     
     function toggleClassesInButtonsBlock(targetButtonElement, buttonsNodeList, className) {
         Array.from(buttonsNodeList).forEach((button)=> {
@@ -288,6 +302,7 @@ export default function fillPage(
             };
         })
     }
+
 
     function switchTabindexesInButtonsBlock(targetButtonElement, buttonsNodeList) {
         Array.from(buttonsNodeList).forEach((button)=> {
@@ -306,6 +321,7 @@ export default function fillPage(
             }
         })
     }
+
 
     function manageIMGResize() {
         // some additional logic here to trigger
@@ -332,34 +348,75 @@ export default function fillPage(
         });
     }
 
-    function populateTargetElements(relevantData) {
+
+    function populateTargetElements(relevantData, transition) {
 
         targetElements.forEach((element) => {
-                
+
             if (element.id === 'image') {
 
                 if (relevantData.images.png) { // in data.json different img extentions
-                    // choose image extention
+
                     const imgExtention = webpSupport ? 'webp' : 'png';
-                    element.src = relevantData.images[imgExtention];
-                    // set alt
-                    element.alt = `${relevantData.name} photo`;
+                    const replaceImage = () => {
+                        element.src = relevantData.images[imgExtention];
+                        element.alt = `${relevantData.name} photo`;
+                    };
+
+                    if(transition) {
+                        const imgClass = (element.dataset.jsFill === 'planet-image') ?
+                            TRANSITION_CLASS_IMAGE_PLANET :
+                            TRANSITION_CLASS_IMAGE;
+
+                        replaceWithTransition(element, imgClass, replaceImage);
+                    } else {
+                        replaceImage();
+                    };
                 }
 
                 if (relevantData.images.portrait) { // in data.json different img ratio
 
-                    // get breakpoint to change img size
-                    element.src = (isDesktopMode()) ?
-                        relevantData.images.portrait :
-                        relevantData.images.landscape;
+                    const replaceImage = () => {
+                        element.src = (isDesktopMode()) ?
+                            relevantData.images.portrait :
+                            relevantData.images.landscape;
+    
+                        element.alt = `${relevantData.name} photo`;
+                    };
 
-                    // set alt
-                    element.alt = `${relevantData.name} photo`;
+                    if(transition) {
+                        const imgClass = (isDesktopMode()) ?
+                        TRANSITION_CLASS_IMAGE :
+                        TRANSITION_CLASS_IMAGE_TECHNOLOGY;
+
+                        replaceWithTransition(element, imgClass, replaceImage);
+                    } else {
+                        replaceImage();
+                    };
                 }
 
             } else { // text data
-                element.innerText = relevantData[element.id];
+
+                if(transition) {
+                    replaceWithTransition(element, TRANSITION_CLASS_TEXT, replaceText);
+                } else {
+                    replaceText();
+                }
+
+                function replaceText() {
+                    element.innerText = relevantData[element.id];
+                }
             }
+        })
+    }
+    
+
+    function transitionAdditionalElements(...classList) {
+        classList.forEach(className => {
+            
+            document.querySelectorAll(className).forEach(elem => {
+                replaceWithTransition(elem, 'js-transition-text');
+            });
         })
     }
 }

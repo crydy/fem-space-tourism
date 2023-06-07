@@ -83,17 +83,12 @@
         position: relative;
         
         @include set(
-            width,
-            rem(177), rem(456), rem(568)
+            height,
+            rem(223), rem(532), 80vh
         );
 
         @include breakpoint(medium) {
             bottom: -4px;
-        };
-
-        @include breakpoint(large) {
-            height: 80vh;
-            width: auto;
         };
     }
 

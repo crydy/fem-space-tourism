@@ -13,12 +13,35 @@ export function randomInteger(min, max) {
 }
 
 
+export function replaceWithTransition(element, className, callback) {
+    const TRANSITION_TIME = 400;
+    const DELAY = 200;
+    
+    // 1 start transition
+    setTransitionTemperory(element, TRANSITION_TIME);
+    element.classList.add(className);
+
+    // 2 change data in element
+    if(callback) {
+        setTimeout(() => {
+            callback();
+        }, TRANSITION_TIME);
+    }
+
+    // 3 start back transition
+    setTimeout(() => {
+        setTransitionTemperory(element, TRANSITION_TIME);
+        element.classList.remove(className);
+    }, TRANSITION_TIME + DELAY);
+}
+
+
 export function setTransitionTemperory(element, time, transitionProperty) { // time in sec
 
     if (transitionProperty) {
-        element.style.transition = `${transitionProperty} ${time}s`;
+        element.style.transition = `${transitionProperty} ${time / 1000}s`;
     } else {
-        element.style.transition = `${time}s`;
+        element.style.transition = `${time / 1000}s`;
     }
 
     element.transitionMode = transitionProperty;
@@ -26,7 +49,7 @@ export function setTransitionTemperory(element, time, transitionProperty) { // t
     setTimeout(() => {
         element.transitionMode = null;
         element.style.transition = '';
-    }, time * 1000);
+    }, time);
 }
 
 

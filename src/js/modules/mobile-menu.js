@@ -73,7 +73,7 @@ export function mobileMenu() {
                 sideMenu.hidden = true;
             } else {
                 setTimeout(() => sideMenu.hidden = true, setup.transitionTime * 1000);
-                setTransitionTemperory(sideMenu, setup.transitionTime);
+                setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
             }
             sideMenu.style.transform = 'translateX(100%)';
             sideMenu.classList.remove('opened');
@@ -87,7 +87,7 @@ export function mobileMenu() {
                 sideMenu.classList.add('opened');
             } else {
                 setTimeout(() => {
-                    setTransitionTemperory(sideMenu, setup.transitionTime);
+                    setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
                     sideMenu.style.transform = '';
                     sideMenu.classList.add('opened');
                 }, setup.shortDelay);
