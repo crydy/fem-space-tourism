@@ -12,6 +12,17 @@ export function randomInteger(min, max) {
     return Math.floor(rand);
 }
 
+export function randomDecimalInRange(min, max, decimalDigits = 0) {
+    const rand = Math.random() * (max - min) + min;
+    
+    if (decimalDigits > 0) {
+      const factor = 10 ** decimalDigits;
+      return Math.round(rand * factor) / factor;
+    } else {
+      return rand;
+    }
+}
+
 const activeElements = new Map(); // store elements that are in transition mode
 export function replaceWithTransition(element, className, callback) {
     
