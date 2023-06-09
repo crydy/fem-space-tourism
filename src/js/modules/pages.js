@@ -1,85 +1,79 @@
-import {
-    createStarsLayout,
-    createMovingStars
-} from "./moving-stars.js";
+import { getCurrentPageName, isDesktopMode, isMobileMode, replaceWithTransition } from "../utils/functions.js";
+import { createSpaceElement, createMovingStars } from "./moving-stars.js";
+import { pagesSetup } from "../utils/project-setup.js";
 
-import { isDesktopMode, replaceWithTransition } from "../utils/functions.js";
 
 export default function fillPage(
     jsonDataPath,
     webpSupport,
-    crewSlideInterval,
-    crewSlideDelay
 ) {
-    const TRANSITION_CLASS_TEXT = 'js-transition-text';
-    const TRANSITION_CLASS_IMAGE = 'js-transition-image';
-    const TRANSITION_CLASS_IMAGE_PLANET = 'js-transition-image-planet';
-    const TRANSITION_CLASS_IMAGE_TECHNOLOGY = 'js-transition-image-technology';
-
-    const currentPath = window.location.pathname; // '/pagename.html'
-    const pageName = currentPath.split('/').pop().split('.')[0]; // 'pagename'
-    
+    const currentPage = getCurrentPageName();
     const targetElements = document.querySelectorAll('[data-js-fill]');
-    let thisPageData;
     
-    if (pageName === 'index') return;
+    const jsTransClass = pagesSetup.jsTransitionClasses;
+    const planetTransBgImgSet = pagesSetup.planetTransBgImgSet;
+    const crewSlideInterval = pagesSetup.crewPageAutosliding.slideInterval;
+    const crewSlideDelay = pagesSetup.crewPageAutosliding.slideDelayAfterUserClick;
+    
+    let thisPageData;
 
-    getCurrentPageData(jsonDataPath, pageName).then(data => {
+    if (currentPage === 'index') {
+        
+        // live stars on the page
+        runMovingStars();
+        // png image of planet with transparent bg to overlay moving stars layer
+        // (must follow to overlay, same z-index!)
+        insertFrontPlanetOverlay(planetTransBgImgSet.homePage);
 
-        thisPageData = data;
+        return;
+    };
 
-        switch (pageName) {
+    // fill inner pages with data from data.json
+    getCurrentPageData(jsonDataPath, currentPage).then(fetchedData => {
+
+        thisPageData = fetchedData;
+        let initialData = thisPageData[0];
+
+        switch (currentPage) {
         
             case 'destination':
-
                 const chosenPlanet = sessionStorage.getItem('planet');
 
                 if(chosenPlanet) {
-                    // insert data for last choosen planet
                     switchPlanetButtons(chosenPlanet);
                     populateTargetElements(
                         thisPageData.find(item => item.name === chosenPlanet)
                     )
                 } else {
-                    // insert the initial data
-                    populateTargetElements(thisPageData[0]);
+                    populateTargetElements(initialData);
                 }
 
-                manageChoosePlanetButtons();
-
-                // inset moving stars
-                const space = createStarsLayout();
-                document.body.appendChild(space);
-                createMovingStars(space);
-
+                manageDestinationPageButtons();
+                runMovingStars();
                 break;
     
             case 'crew':
+                populateTargetElements(initialData);
 
-                // insert the initial data
-                populateTargetElements(thisPageData[0]);
-
-                // swithers and autoswithing
                 manageCrewMemberSwithing(
                     crewSlideInterval,
                     crewSlideDelay
                 );
 
+                runMovingStars();
+                insertFrontPlanetOverlay(planetTransBgImgSet.crewPage);
                 break;
     
             case 'technology':
-
-                // insert the initial data
-                populateTargetElements(thisPageData[0]);
-
-                manageIMGResize();
-                manageTechnologySwithers();
+                populateTargetElements(initialData);
+                manageTechnologyPageIMGResize();
+                manageTechnologyPageButtons();
                 break;
         }
     });
 
-    // Caching data only once, not checking data.json update!
-    async function getCurrentPageData(url, pageName) {
+    // Caching data only once (no updates from data.json implemented)
+    async function getCurrentPageData(url, currentPage) {
         const KEY = 'space-tourism-data';
         let commonData;
 
@@ -102,7 +96,7 @@ export default function fillPage(
             localStorage.setItem(KEY, JSON.stringify(commonData));
         }
 
-        const thisPageData = commonData[pageName];
+        const thisPageData = commonData[currentPage];
         return thisPageData;
     }
 
@@ -123,17 +117,16 @@ export default function fillPage(
     }
 
 
-    function manageChoosePlanetButtons() {
-        // work with form and radiobutton-labels which is kind of buttons as design result
+    function manageDestinationPageButtons() {
+        // work with form and radiobutton-labels, which is kind of buttons by design
         const form = document.querySelector('.destination__buttonsblock');
 
         let isTabNavigation = false;
 
-        // manage mouse clicks and arrows keydown switching
         form.addEventListener('click', onClick);
         form.addEventListener('keydown', onKeydown);
 
-        // diaplay arrow icons with tab navigation only
+        // diaplay arrow-icons with tab navigation only
         manageVisualArrowAppearance();
 
         function onClick(event) {
@@ -143,7 +136,7 @@ export default function fillPage(
             // get planet name from attribute 'for'
             const requiredName = event.target.htmlFor;
 
-            // keep for next visit
+            // keep for next visit in this session
             sessionStorage.setItem('planet', requiredName);
 
             // find subdata with the same planet name
@@ -262,56 +255,43 @@ export default function fillPage(
         }
 
         function SwitchActiveButton(currentButtonElement) {
-            toggleClassesInButtonsBlock(currentButtonElement, buttonsNodeList, 'crew__button--checked');
-            switchTabindexesInButtonsBlock(currentButtonElement, buttonsNodeList);
+            setActiveButton(currentButtonElement, buttonsNodeList, 'crew__button--checked');
         }
     }
 
 
-    function manageTechnologySwithers() {
+    function manageTechnologyPageButtons() {
         const buttonsBlock = document.querySelector('.technology__buttonsblock');
         const buttonsNodeList = buttonsBlock.children;
         
         buttonsBlock.addEventListener('click', onClick);
         
         function onClick(event) {
-            const button = event.target;
-            const index = Array.from(buttonsNodeList).indexOf(button);
+            const clickedButton = event.target;
+            const index = Array.from(buttonsNodeList).indexOf(clickedButton);
 
             if (index !== -1) { // manage active buttons only
                 populateTargetElements(thisPageData[index], 'transition');
-                switchActiveButton(event);
+                setActiveButton(event.target, buttonsNodeList, 'technology__button--checked')
             }
-        }
-
-        function switchActiveButton(event) {
-            const targetButton = event.target;
-            toggleClassesInButtonsBlock(targetButton, buttonsNodeList, 'technology__button--checked')
-            switchTabindexesInButtonsBlock(targetButton, buttonsNodeList);
         }
     }
 
     
-    function toggleClassesInButtonsBlock(targetButtonElement, buttonsNodeList, className) {
+    function setActiveButton(targetButtonElement, buttonsNodeList, className) {
         Array.from(buttonsNodeList).forEach((button)=> {
+            // toggle class
             if (
                 button === targetButtonElement ||
                 button.classList.contains(className)
             ) {
                 button.classList.toggle(className);
             };
-        })
-    }
-
-
-    function switchTabindexesInButtonsBlock(targetButtonElement, buttonsNodeList) {
-        Array.from(buttonsNodeList).forEach((button)=> {
 
             // exclude current button from tab navigation
             if (button === targetButtonElement) {
                 button.setAttribute('tabindex', '-1');
             };
-
             // include previous one which was excluded
             if (
                 button.getAttribute('tabindex') === '-1' &&
@@ -323,7 +303,7 @@ export default function fillPage(
     }
 
 
-    function manageIMGResize() {
+    function manageTechnologyPageIMGResize() {
         // some additional logic here to trigger
         // evaluations only when the breakpoint passed
 
@@ -365,8 +345,8 @@ export default function fillPage(
 
                     if(transition) {
                         const imgClass = (element.dataset.jsFill === 'planet-image') ?
-                            TRANSITION_CLASS_IMAGE_PLANET :
-                            TRANSITION_CLASS_IMAGE;
+                            jsTransClass.imagePlanet :
+                            jsTransClass.image;
 
                         replaceWithTransition(element, imgClass, replaceImage);
                     } else {
@@ -386,8 +366,8 @@ export default function fillPage(
 
                     if(transition) {
                         const imgClass = (isDesktopMode()) ?
-                        TRANSITION_CLASS_IMAGE :
-                        TRANSITION_CLASS_IMAGE_TECHNOLOGY;
+                            jsTransClass.image :
+                            jsTransClass.imageTech;
 
                         replaceWithTransition(element, imgClass, replaceImage);
                     } else {
@@ -398,7 +378,7 @@ export default function fillPage(
             } else { // text data
 
                 if(transition) {
-                    replaceWithTransition(element, TRANSITION_CLASS_TEXT, replaceText);
+                    replaceWithTransition(element, jsTransClass.text, replaceText);
                 } else {
                     replaceText();
                 }
@@ -418,5 +398,88 @@ export default function fillPage(
                 replaceWithTransition(elem, 'js-transition-text');
             });
         })
+    }
+
+
+    function runMovingStars() {
+        const space = createSpaceElement();
+        document.body.appendChild(space);
+        createMovingStars(space);
+    }
+
+
+    // planet (cover layer) to overlay stars
+    // (must follow in the code to overlay stars: same z-index!)
+    function insertFrontPlanetOverlay(imgSet) {
+
+        const planetOnFront = createFrontPlanetLayer();
+
+        document.body.append(planetOnFront);
+        setIMG(imgSet);
+
+        changeImageOnResize();
+
+        function createFrontPlanetLayer() {
+            const overlay = document.createElement('div');
+            overlay.classList.add('planet-in-front');
+
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100vw';
+            overlay.style.height = '100%';
+            overlay.style.zIndex = -1;
+
+            overlay.style.backgroundRepeat = 'no-repeat';
+            overlay.style.backgroundSize = 'cover';
+            overlay.style.backgroundAttachment = 'fixed';
+            overlay.style.backgroundPosition = 'center';
+
+            return overlay;
+        }
+
+        function changeImageOnResize() {
+
+            let previousState;
+    
+            if (isMobileMode()) {
+                previousState = 'mobile';
+            } else if (isDesktopMode()) {
+                previousState = 'desktop';
+            } else {
+                previousState = 'tablet';
+            }
+    
+            window.addEventListener('resize', () => {
+                let currentState;
+    
+                if (isMobileMode()) {
+                    currentState = 'mobile';
+                } else if (isDesktopMode()) {
+                    currentState = 'desktop';
+                } else {
+                    currentState = 'tablet';
+                }
+    
+                if (previousState !== currentState) {
+                    previousState = currentState;
+                    // change image
+                    setIMG(imgSet);
+                }
+            })
+        }
+
+        function setIMG(imgSet) {
+            if (isMobileMode()) {
+                // set mobile img
+                planetOnFront.style.backgroundImage = `${imgSet.mobile}`;
+            } else if (isDesktopMode()) {
+                // set desktop img
+                planetOnFront.style.backgroundImage = `${imgSet.desktop}`;
+            } else {
+                // set tablet img
+                planetOnFront.style.backgroundImage = `${imgSet.tablet}`;;
+            }
+        }
     }
 }

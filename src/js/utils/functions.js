@@ -1,3 +1,5 @@
+
+
 // fast console log functions
 export function fastLog() {
     // log(subject)
@@ -7,10 +9,50 @@ export function fastLog() {
 }
 
 
+export function waitDOMContent() {
+    return new Promise( resolve => {
+        window.addEventListener('DOMContentLoaded', () => resolve());
+    });
+}
+
+
+// check the browser for WEBP support,
+// create 'webp'/'no-webp' class to HTML
+// for use .webp images in css if browser support it
+export function setBrowserWEBPSupportMark() {
+
+    return new Promise((resolve) => {
+
+        function testWebP(callback) {
+            let webP = new Image();
+            webP.onload = webP.onerror = function () {
+                callback(webP.height == 2);
+            };
+            webP.src = "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA";   
+        }
+        
+        testWebP(function (support) {
+            let className = support === true ? 'webp' : 'no-webp';
+            document.documentElement.classList.add(className);
+            
+            resolve(support);
+        });
+    })
+}
+
+
+export function getCurrentPageName() {
+    const currentPath = window.location.pathname; // '/pagename.html'
+    const pageName = currentPath.split('/').pop().split('.')[0]; // 'pagename'
+    return pageName;
+}
+
+
 export function randomInteger(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
 }
+
 
 export function randomDecimalInRange(min, max, decimalDigits = 0) {
     const rand = Math.random() * (max - min) + min;
@@ -22,6 +64,67 @@ export function randomDecimalInRange(min, max, decimalDigits = 0) {
       return rand;
     }
 }
+
+
+export function randomColor(
+    // all values range: 0-100
+    minSaturation = 0,
+    maxSaturation = 100,
+    minLightness = 0,
+    maxLightness = 100,
+) {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+
+    // Generate random hue (from blue to white)
+    const hue = Math.floor(Math.random() * 181) + 180;
+
+    const saturation = Math.floor(Math.random() * (maxSaturation - minSaturation + 1)) + minSaturation;
+
+    const lightness = Math.floor(Math.random() * (maxLightness - minLightness + 1)) + minLightness;
+
+    // Convert HSL values to RGB
+    const rgb = hslToRgb(hue, saturation, lightness);
+
+    // Convert RGB values to hexadecimal color code
+    for (let i = 0; i < 3; i++) {
+        color += letters[Math.floor(rgb[i] / 16)];
+        color += letters[rgb[i] % 16];
+    }
+    return color;
+
+    
+    function hslToRgb(h, s, l) {
+        h /= 360;
+        s /= 100;
+        l /= 100;
+        
+        let r, g, b;
+        
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+        
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+        
+            r = Math.round(hue2rgb(p, q, h + 1 / 3) * 255);
+            g = Math.round(hue2rgb(p, q, h) * 255);
+            b = Math.round(hue2rgb(p, q, h - 1 / 3) * 255);
+        }
+        
+        return [r, g, b];
+    }
+}
+
 
 const activeElements = new Map(); // store elements that are in transition mode
 export function replaceWithTransition(element, className, callback) {
@@ -38,7 +141,7 @@ export function replaceWithTransition(element, className, callback) {
         element.classList.add(className);
     }
 
-    // 2 change data in element
+    // 2 change data in element (start callback)
 
     if(callback) {
         setTimeout(() => {

@@ -1,26 +1,12 @@
-import { fastLog } from './utils/functions.js';
-import waitDOMContent from './utils/dom-waiting.js';
-import setBrowserWEBPSupportMark from  './utils/webp-support.js';
+import { fastLog, waitDOMContent, setBrowserWEBPSupportMark } from './utils/functions.js';
+import { pagesSetup } from './utils/project-setup.js'; // all setups here
 import { setupMobileMenu } from  './modules/mobile-menu.js';
-import fillPage from './modules/interactive-data.js';
-
-const jsonDataPath = 'files/data.json';
-
-const CREW_SLIDE_INTERVAL = 8000;
-const CREW_SLIDE_DALAY_AFTER_CLICK = 15000;
+import fillPage from './modules/pages.js';
 
 fastLog();
-
 waitDOMContent()
-.then(() => setBrowserWEBPSupportMark())
-.then(webpSupport => {
-
-    setupMobileMenu();
-    
-    fillPage(
-        jsonDataPath,
-        webpSupport,
-        CREW_SLIDE_INTERVAL,
-        CREW_SLIDE_DALAY_AFTER_CLICK
-    );
-});
+    .then(() => setBrowserWEBPSupportMark())
+    .then(webpSupport => {
+        setupMobileMenu();
+        fillPage(pagesSetup.jsonDataPath, webpSupport);
+    });

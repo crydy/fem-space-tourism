@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.min.css">
+    <title>Space tourism</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+
+    <!-- Styles and JS -->
+    <script src="js/app.min.js"></script>
+    <link href="css/style.min.css" rel="stylesheet">
+</head>
+
+<body class="crew">
+
+    <!-- Header -->
+    <header class="header">
+
+    <a href="index.html" class="header__logo-link" tabindex="-1">
+        <span class="visually-hidden">Home page</span>
+        <img src="./img/svg-icons/logo.svg" alt="logo">
+    </a>
+
+    <nav class="header__nav nav">
+
+        <ol class="nav__list">
+            <li class="nav__item">
+                <a
+                    href="index.html"
+                    class="nav__link @@class.home"
+                    tabindex="@@tabindex.home"
+                >
+                    Home
+                </a>
+            </li>
+            <li class="nav__item">
+                <a
+                    href="destination.html"
+                    class="nav__link @@class.destination"
+                    tabindex="@@tabindex.destination"
+                >
+                    Destination
+                </a>
+            </li>
+            <li class="nav__item">
+                <a
+                    href="crew.html"
+                    class="nav__link this-page"
+                    tabindex="-1"
+                >
+                    Crew
+                </a>
+            </li>
+            <li class="nav__item">
+                <a
+                    href="technology.html"
+                    class="nav__link @@class.technology"
+                    tabindex="@@tabindex.technology"
+                >
+                    Technology
+                </a>
+            </li>
+        </ol>
+
+    </nav>
+
+</header>
+
+
+    <h1 class="visually-hidden">Space tourism: crew</h1>
+    
+    <!-- Main content -->
+    <main class="crew__main">
+
+        <!-- Pre-header -->
+        <p class="crew__preheader preheader">Meet your crew</p>
+
+        <!-- Image -->
+        <div class="crew__imgwrapper">
+            <img id="image" class="crew__image" src="#" alt="" data-js-fill>
+        </div>
+        
+        <!-- Info -->
+        <div class="crew__infowrapper">
+
+            <!-- Crew member switchers -->
+            <div class="crew__buttonsblock">
+                
+                <button
+                    class="crew__button crew__button--checked"
+                    data-slide-index="0"
+                    aria-label="Crew member 1"
+                    tabindex="-1"
+                >
+                    <span class="visually-hidden">Crew member 1</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="1" aria-label="Crew member 2">
+                    <span class="visually-hidden">Crew member 2</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="2" aria-label="Crew member 3">
+                    <span class="visually-hidden">Crew member 3</span>
+                </button>
+
+                <button class="crew__button" data-slide-index="3" aria-label="Crew member 4">
+                    <span class="visually-hidden">Crew member 4</span>
+                </button>
+
+            </div>
+
+            <!-- Info -->
+            <div class="crew__infoblock">
+                <!-- Role -->
+                <p id='role' class="crew__role preheader-2" data-js-fill></p>
+                <!-- Name -->
+                <h2 id="name" class="crew__name header-3" data-js-fill></h2>
+                <!-- Bio -->
+                <p id="bio" class="crew__bio" data-js-fill></p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+    
+</footer>
+</body>
+</html>

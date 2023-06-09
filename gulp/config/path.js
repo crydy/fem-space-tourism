@@ -3,7 +3,7 @@ import * as nodePath from 'path';                               // node.js built
 const rootFolderName = nodePath.basename(nodePath.resolve());   // getting the root catalog name
 
 // main folders
-const buildFolder = './dist';
+const buildFolder = './docs';
 const srcFolder = './src';
 
 // all the paths

@@ -2,23 +2,23 @@
 
 
 .index {
-    @include bg-image(home);
+    @include bg-image(home); 
 
     &__main {
         @include edges;
 
         @include flex;
+        isolation: isolate;
         text-align: center;
-        margin-top: rem(48);
-    
-        @include breakpoint(medium) {
-            margin-top: rem(106);
-        }
-        
+
+        @include set(
+            margin-top,
+            rem(48), rem(106), 17.4vh
+        );
+
         @include breakpoint(large) {
             text-align: left;
     
-            margin-top: 17.4vh;
             flex-direction: row;
             justify-content: space-between;
 

@@ -23,20 +23,17 @@
     }
 
     &__image {
-        width: rem(170);
         user-select: none;
 
-        margin-bottom: rem(26);
-        
-        @include breakpoint(medium) {
-            width: rem(300);
-            margin-bottom: rem(53);
-        }
+        @include set(
+            width,
+            rem(170), rem(300), rem(445)
+        );
 
-        @include breakpoint(large) {
-            width: rem(445);
-            margin-bottom: rem(97);
-        }
+        @include set(
+            margin-bottom,
+            rem(26), rem(53), rem(97)
+        );
     }
 
     &__infoblock {
@@ -52,8 +49,12 @@
 
     &__buttonsblock {
         display: inline-block;
-        margin-bottom: rem(31);
         min-width: max-content;
+
+        @include set(
+            margin-bottom,
+            rem(31), rem(47), rem(52)
+        );
 
         & > div.tab-navigation {
             $arrow-distance: 55;
@@ -86,14 +87,6 @@
             }
 
         }
-        
-        @include breakpoint(medium) {
-            margin-bottom: rem(47);
-        }
-        
-        @include breakpoint(large) {
-            margin-bottom: rem(52);
-        }
     }
     
     &__button {
@@ -108,16 +101,18 @@
         user-select: none;
         cursor: pointer;
 
-        &:hover {
-            color: $color-font-strong;
+        @include transition(color);
+
+        @include breakpoint(medium) {
+            font-size: rem(16);
         }
 
         &:not(:last-child) {
             margin-right: rem(27);
         }
-    
-        @include breakpoint(medium) {
-            font-size: rem(16);
+
+        &:hover {
+            color: $color-font-strong;
         }
 
         &::before {
@@ -133,6 +128,10 @@
             @include breakpoint(medium) {
                 bottom: rem(-15);
             }
+        }
+
+        &:hover::before {
+            opacity: .5;
         }
     }
 
@@ -153,19 +152,20 @@
         max-width: rem(450);
         margin-left: auto;
         margin-right: auto;
-
-        padding-bottom: rem(32);
         margin-bottom: rem(32);
+
+        @include set(
+            padding-bottom,
+            rem(32), rem(49), rem(54)
+        );
+
         
         @include breakpoint(medium) {
             max-width: rem(500);
-
-            padding-bottom: rem(49);
             margin-bottom: rem(28);
         }
 
         @include breakpoint(large) {
-            padding-bottom: rem(54);
             margin-left: 0;
             margin-right: 0;
             min-width: auto;

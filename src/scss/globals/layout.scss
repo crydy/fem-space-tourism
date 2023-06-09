@@ -1,16 +1,5 @@
 @use '../util' as *;
 
-:root { // breakpoints for JS
-    --breakpoint-medium: #{em($breakpoint-medium)};
-    --breakpoint-large: #{em($breakpoint-large)};
-    --breakpoint-xlarge: #{em($breakpoint-xlarge)};
-}
-
-// .limiter {
-//     padding: 0 rem($edges-indents);
-//     min-width: rem($body-min-size);
-//     margin: 0 auto;
-// }
 
 .visually-hidden {
     position: absolute;

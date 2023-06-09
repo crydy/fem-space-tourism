@@ -1,37 +1,17 @@
-import { randomInteger, randomDecimalInRange } from "../utils/functions.js";
-export {createStarsLayout, createMovingStars, countStars};
+import { randomInteger, randomDecimalInRange, randomColor } from "../utils/functions.js";
+import { movingStarsSettings as initSetup } from "../utils/project-setup.js";
+
+export { createSpaceElement, createMovingStars, countStars };
 
 
-function createMovingStars(spaceElement, options = {}) {
+function createMovingStars(spaceElement, options = initSetup) {
     const {
-        numStarsOnStart = 30,
-        numStarsMax = 50,
-
-        movement = true,
-        minMoveSpeed = 2,
-        maxMoveSpeed = 5,
-        
-        intervalTiming = 1500,
-        minAppearDuration = 1000,
-        maxAppearDuration = 6000,
-        minDisappearDuration = 5000,
-        maxDisappearDuration = 15000,
-        minTransitionDuration = 1500,
-        maxTransitionDuration = 3000,
-
-        minStarSize = .5,
-        maxStarSize = 3.2,
-        minOpacity = 0.7,
-        maxOpacity = 1,
-
-        showHalo = false,
-        haloColor = '#fff',
-        minHaloBlur = 4,
-        maxHaloBlur = 15,
-        minHaloOpacity = 0.4,
-        maxHaloOpacity = 0.8,
+        numStarsOnStart, numStarsMax, movement, minMoveSpeed, maxMoveSpeed,
+        intervalTiming, minAppearDuration, maxAppearDuration,
+        minDisappearDuration, maxDisappearDuration, minTransitionDuration,
+        maxTransitionDuration, minStarSize, maxStarSize, minOpacity, maxOpacity,
+        showHalo, haloColor, minHaloBlur, maxHaloBlur, minHaloOpacity, maxHaloOpacity,
     } = options;
-
 
     populateSky();
 
@@ -153,7 +133,7 @@ function createMovingStars(spaceElement, options = {}) {
         star.style.zIndex = '-1';
         star.style.width = starSize + 'px';
         star.style.height = starSize + 'px';
-        star.style.backgroundColor = getRandomColor();
+        star.style.backgroundColor = randomColor(2, 14, 40, 90);
         star.style.borderRadius = '50%';
         star.style.opacity = opacity;
         star.style.transition = 'opacity linear';
@@ -199,8 +179,9 @@ function createMovingStars(spaceElement, options = {}) {
 }
 
 
-function createStarsLayout() {
+function createSpaceElement() {
     const space = document.createElement('div');
+    space.classList.add('space-overlay');
 
     space.style.position = 'relative';
     space.style.position = 'fixed';
@@ -214,67 +195,7 @@ function createStarsLayout() {
 }
 
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-
-    // Generate random hue (from blue to white)
-    const hue = Math.floor(Math.random() * 181) + 180;
-
-    // Adjust the saturation range (0-100)
-    const minSaturation = 2;
-    const maxSaturation = 14;
-    const saturation = Math.floor(Math.random() * (maxSaturation - minSaturation + 1)) + minSaturation;
-
-    // Adjust the lightness range (0-100)
-    const minLightness = 40;
-    const maxLightness = 90;
-    const lightness = Math.floor(Math.random() * (maxLightness - minLightness + 1)) + minLightness;
-
-    // Convert HSL values to RGB
-    const rgb = hslToRgb(hue, saturation, lightness);
-
-    // Convert RGB values to hexadecimal color code
-    for (let i = 0; i < 3; i++) {
-        color += letters[Math.floor(rgb[i] / 16)];
-        color += letters[rgb[i] % 16];
-    }
-    return color;
-}
-
-
-function hslToRgb(h, s, l) {
-    h /= 360;
-    s /= 100;
-    l /= 100;
-    
-    let r, g, b;
-    
-    if (s === 0) {
-        r = g = b = l;
-    } else {
-        const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-        };
-    
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-    
-        r = Math.round(hue2rgb(p, q, h + 1 / 3) * 255);
-        g = Math.round(hue2rgb(p, q, h) * 255);
-        b = Math.round(hue2rgb(p, q, h - 1 / 3) * 255);
-    }
-    
-    return [r, g, b];
-}
-
-
-function countStars(ms = 10000) {
+function countStars(ms = 4000) {
     console.log( 'stars on the sky: ' + document.querySelectorAll('.star').length )
     setInterval(() => {
         console.log( 'stars on the sky: ' + document.querySelectorAll('.star').length )

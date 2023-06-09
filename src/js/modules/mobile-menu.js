@@ -1,32 +1,55 @@
 import { setTransitionTemperory, isMobileMode } from "../utils/functions.js";
-import { mobileMenuSettings as setup } from "../utils/mobile-menu-setup.js";
+import { mobileMenuSettings as setup } from "../utils/project-setup.js";
 
 
 export function setupMobileMenu() {
 
     const parentElement = document.querySelector(`.${setup.parentElement}`);
+    const overlay = createOverlay();
     const burgerElement = createBurgerButton();
     const menuElement = setupSideMenu(
         document.querySelector(`.${setup.menuElement}`)
     );
-    const overlay = createOverlay();
 
     parentElement.appendChild(burgerElement);
     document.body.appendChild(overlay);
 
-    let isMenuManuallyOpened = false;
+
+    const state = {
+        isMobileMode: isMobileMode(),
+        isOpened: false,
+
+        toMobile() { this.isMobileMode = true },
+        toDesktop() { this.isMobileMode = false },
+
+        open() {this.isOpened = true},
+        close() {this.isOpened = false},
+
+        log() {
+            let logText = '';
+            if (!this.isMobileMode) {
+                logText += 'Desktop mode';
+                log(logText);
+            } else {
+                logText += 'Mobile mode: ';
+                if (this.isOpened) {
+                    log(logText += 'opened');
+                } else {
+                    log(logText += 'closed');
+                }
+            }
+        }
+    }
 
     // toggle menu by button click
     burgerElement.addEventListener('click', () => {
-        isMenuManuallyOpened = !isMenuManuallyOpened;
-        const isOpened = burgerElement.classList.contains('opened');
-        if (isOpened) close();
+        
+        if (state.isOpened) close();
         else open();
     })
 
     // close by click on overlay
     overlay.addEventListener('click', () => {
-        isMenuManuallyOpened = !isMenuManuallyOpened;
         close();
     });
 
@@ -39,24 +62,36 @@ export function setupMobileMenu() {
 
             if (isMobileMode()) {
     
-                if (!isMenuManuallyOpened) menuElement.hide('ho transition');
+                burgerElement.appear();
+                menuElement.toMobileView();
+
+                if (!state.isOpened) {
+                    menuElement.hide('ho transition')
+                } else {
+                    overlay.show('no transition');
+                }
     
-                burgerElement.hidden = false;
-                menuElement.setPositionAbsolute();
-    
+                state.toMobile();
             } else {
-    
-                burgerElement.hidden = true;
-                menuElement.show('no transition');
-                menuElement.clearPositionAbsolute();
+                
+                burgerElement.disappear();
+                menuElement.toDesktopView();
+                overlay.hide('no transition');
+
+                state.toDesktop();
             }
         }
     });
 
+    // loop tab navitagion in open menu in mobile mode
+    manageMenuTabNavigation(
+        burgerElement,
+        ...menuElement.querySelectorAll('a')
+    );
+
     
     // -----------------------------------------------
     function setupSideMenu(sideMenu) {
-        let loopTabNavigationReset;
         
         sideMenu.hide = (noTransition) => {
             if (noTransition) {
@@ -67,8 +102,6 @@ export function setupMobileMenu() {
             }
             sideMenu.style.transform = 'translateX(100%)';
             sideMenu.classList.remove('opened');
-
-            window.removeEventListener('keydown', loopTabNavigationReset);
         };
     
         sideMenu.show = (noTransition) => {
@@ -84,34 +117,30 @@ export function setupMobileMenu() {
                     sideMenu.classList.add('opened');
                 }, setup.shortDelay);
             }
-
-            // loop tab navitagion in open menu
-            loopTabNavigationReset = loopTabNavigation(
-                burgerElement,
-                ...sideMenu.querySelectorAll('a:not([tabindex="-1"])')
-            );
         };
 
-        sideMenu.setPositionAbsolute = () => {
+        sideMenu.toMobileView = () => {
             sideMenu.style.position = 'absolute';
             sideMenu.style.top = 0;
             sideMenu.style.right = 0;
         }
 
-        sideMenu.clearPositionAbsolute = () => {
+        sideMenu.toDesktopView = () => {
             sideMenu.style.position = '';
             sideMenu.style.top = '';
             sideMenu.style.right = '';
+
+            sideMenu.show('no transition');
         }
 
         // initial menu state
         sideMenu.style.zIndex = setup.menuZIndex;
 
         if (!isMobileMode()) {
-            sideMenu.clearPositionAbsolute();
+            sideMenu.toDesktopView();
             sideMenu.show('no transition');
         } else  {
-            sideMenu.setPositionAbsolute();
+            sideMenu.toMobileView();
             sideMenu.hide('to transition');
         }
 
@@ -142,6 +171,14 @@ export function setupMobileMenu() {
         burgerButtonElement.uncross = () => {
             bar1.uncross();
             bar2.uncross();
+        }
+
+        burgerButtonElement.appear = () => {
+            burgerButtonElement.hidden = false;
+        }
+
+        burgerButtonElement.disappear = () => {
+            burgerButtonElement.hidden = true;
         }
 
         function createCoreButton() {
@@ -225,7 +262,7 @@ export function setupMobileMenu() {
 
     function createOverlay() {
         const overlay = document.createElement('div');
-        overlay.classList.add('overlay');
+        overlay.classList.add('mobile-menu-overlay');
 
         overlay.hidden = true;
 
@@ -240,61 +277,73 @@ export function setupMobileMenu() {
             background-color ${setup.transitionTime}s ${setup.transTimingFunc}
         `;
 
-        overlay.show = function() {
+        overlay.show = function(noTransition) {
             overlay.hidden = false;
-            setTimeout(() => {
-                this.style.backgroundColor = `rgba(0, 0, 0, ${setup.overlayOpacity})`;
-            }, setup.shortDelay);
+            
+            if (!noTransition) {
+                setTimeout(() => {
+                    this.style.backgroundColor = `rgba(0, 0, 0, ${setup.overlayOpacity})`;
+                }, setup.shortDelay);
+            }
         }
 
-        overlay.hide = function() {
-            setTimeout(() => {
-                this.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-            }, setup.shortDelay);
-            setTimeout(() => {
+        overlay.hide = function(noTransition) {
+            
+            if (noTransition) {
                 this.hidden = true;
-            }, setup.transitionTime * 1000);
+            } else {
+                setTimeout(() => {
+                    this.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                }, setup.shortDelay);
+                setTimeout(() => {
+                    this.hidden = true;
+                }, setup.transitionTime * 1000);
+            }
         }
 
         return overlay;
     }
 
-    function close() {
-        burgerElement.classList.remove('opened');
-        menuElement.hide();
-        overlay.hide();
-        burgerElement.uncross();
-    }
-
-    function open() {
-        burgerElement.classList.add('opened');
-        menuElement.show();
-        overlay.show();
-        burgerElement.cross();
-    }
-
-    function loopTabNavigation(...elems) {
+    function manageMenuTabNavigation(...elems) {
 
         const firstElem = elems[0]
         const lastElem = elems[elems.length - 1];
         
-        window.addEventListener('keydown', onKeydown);
+        // loop tab navigation in mobile mode when menu opened
+        window.addEventListener('keydown', (event) => {
+            
+            if (state.isMobileMode && state.isOpened) {
 
-        function onKeydown(event) {
-            if (event.key === 'Tab' && menuElement.classList.contains('opened')) {
-                
-                if (!event.shiftKey && event.target === lastElem) {
-                    event.preventDefault();
-                    firstElem.focus();
-                }
-                
-                if (event.shiftKey && event.target === firstElem) {
-                    event.preventDefault();
-                    lastElem.focus();
+                if (event.key === 'Tab' && menuElement.classList.contains('opened')) {
+                    
+                    if (!event.shiftKey && event.target === lastElem) {
+                        event.preventDefault();
+                        firstElem.focus();
+                    }
+                    
+                    if (event.shiftKey && event.target === firstElem) {
+                        event.preventDefault();
+                        lastElem.focus();
+                    }
                 }
             }
-        }
+        });
 
-        return onKeydown;
+    }
+
+    function close() {
+        burgerElement.uncross();
+        menuElement.hide();
+        overlay.hide();
+
+        state.close();
+    }
+
+    function open() {
+        burgerElement.cross();
+        menuElement.show();
+        overlay.show();
+
+        state.open();
     }
 }

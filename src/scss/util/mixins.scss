@@ -179,14 +179,19 @@
 //------- project specific ---------
 
 @mixin bg-image($page-name) {
-    background-image: url("/img/#{$page-name}/background-#{$page-name}-mobile.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+
+    background-image: url("./../img/#{$page-name}/background-#{$page-name}-mobile.jpg");
     
     @include breakpoint(medium) {
-        background-image: url("/img/#{$page-name}/background-#{$page-name}-tablet.jpg");
+        background-image: url("./../img/#{$page-name}/background-#{$page-name}-tablet.jpg");
     }
 
     @include breakpoint(large) {
-        background-image: url("/img/#{$page-name}/background-#{$page-name}-desktop.jpg");
+        background-image: url("./../img/#{$page-name}/background-#{$page-name}-desktop.jpg");
     }
 }
 
