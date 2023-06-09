@@ -306,8 +306,14 @@ export function setupMobileMenu() {
 
     function manageMenuTabNavigation(...elems) {
 
-        const firstElem = elems[0]
-        const lastElem = elems[elems.length - 1];
+        const onlyActiveElems = [];
+
+        elems.forEach(elem => {
+            if (elem.getAttribute('tabindex') !== '-1') onlyActiveElems.push(elem);
+        });
+
+        const firstElem = onlyActiveElems[0]
+        const lastElem = onlyActiveElems[onlyActiveElems.length - 1];
         
         // loop tab navigation in mobile mode when menu opened
         window.addEventListener('keydown', (event) => {
