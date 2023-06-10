@@ -1,8 +1,5 @@
 @use '../util' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;400&display=swap');
-
 
 :root {
     font-family: $font-regular;
@@ -53,15 +50,13 @@
 }
 
 .header-1 {
-    user-select: none;
-
     margin-top: 0;
     margin-bottom: rem(24);
 
     font-family: $font-headings;
     text-transform: uppercase;
-    line-height: 1.25;
     font-weight: 400;
+    line-height: 1.25;
 
     @include set(
         font-size,
@@ -105,21 +100,27 @@
     );
 }
 
-
-
 .details-title { // destination page
-    @extend .header-1;
     font-family: $font-regular;
+    text-transform: uppercase;
     font-size: rem(14);
+    font-weight: 400;
     letter-spacing: em(2.75);
     line-height: 1.2;
+
     color: $color-font-weak;
+    margin-bottom: rem(24);
+    margin-top: 0;
 }
 
 .details-value { // destination page
-    @extend .header-1;
+    font-family: $font-headings;
+    text-transform: uppercase;
     font-size: rem(28);
+    font-weight: 400;
+    
     margin-bottom: 0;
+    margin-top: 0;
 }
 
 p {

@@ -13,10 +13,16 @@
         'logo-tabindex': '-1',
         'logo-path': 'index.html',
         'class': {
-            'destination': 'this-page'
+            'home': '',
+            'destination': 'this-page',
+            'crew': '',
+            'technology': '',
         },
         'tabindex': {
-            'destination': '-1'
+            'home': '',
+            'destination': 'tabindex="-1"',
+            'crew': '',
+            'technology': '',
         }
     })
 
@@ -42,9 +48,9 @@
 
                 <div>
 
-                    <legend class="visually-hidden">
+                    <p class="visually-hidden">
                         Select your planet:
-                    </legend>
+                    </p>
 
                     <input
                         type="radio" id="Moon" name="planets"
@@ -96,7 +102,7 @@
 
     </main>
 
-    <!-- Footer -->
-    @@include('globals/footer.html', {})
+<!-- Footer -->
+@@include('globals/footer.html', {})
 </body>
 </html>

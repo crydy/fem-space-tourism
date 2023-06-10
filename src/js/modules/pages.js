@@ -1,6 +1,12 @@
-import { getCurrentPageName, isDesktopMode, isMobileMode, replaceWithTransition } from "../utils/functions.js";
 import { createSpaceElement, createMovingStars } from "./moving-stars.js";
 import { pagesSetup } from "../utils/project-setup.js";
+import {
+    getCurrentPageName,
+    isDesktopMode,
+    isMobileMode,
+    replaceWithTransition,
+    replaceImageExtensionToWEBP
+} from "../utils/functions.js";
 
 
 export default function fillPage(
@@ -11,9 +17,11 @@ export default function fillPage(
     const targetElements = document.querySelectorAll('[data-js-fill]');
     
     const jsTransClass = pagesSetup.jsTransitionClasses;
-    const planetTransBgImgSet = pagesSetup.planetTransBgImgSet;
     const crewSlideInterval = pagesSetup.crewPageAutosliding.slideInterval;
     const crewSlideDelay = pagesSetup.crewPageAutosliding.slideDelayAfterUserClick;
+
+    // first layer planer overlay to overlap moving stars on index and crew pages
+    const planetTransBgImgSet = pagesSetup.firstPlanIMGSet(webpSupport);
     
     let thisPageData;
 
@@ -35,7 +43,7 @@ export default function fillPage(
         let initialData = thisPageData[0];
 
         switch (currentPage) {
-        
+            
             case 'destination':
                 const chosenPlanet = sessionStorage.getItem('planet');
 
@@ -321,9 +329,16 @@ export default function fillPage(
                 const imgUrlSet = thisPageData.find(
                     array => array.name.toLowerCase() === nameElement.innerText.toLowerCase()
                 ).images;
+
+                const portrait = (webpSupport) ?
+                    replaceImageExtensionToWEBP(imgUrlSet.portrait) :
+                    imgUrlSet.portrait;
+                const landscape = (webpSupport) ?
+                    replaceImageExtensionToWEBP(imgUrlSet.landscape) :
+                    imgUrlSet.landscape;
     
-                if (isDesktopMode()) imgElement.src = imgUrlSet.portrait;
-                else imgElement.src = imgUrlSet.landscape;
+                if (isDesktopMode()) imgElement.src = portrait;
+                else imgElement.src = landscape;
             };
         });
     }
@@ -357,10 +372,15 @@ export default function fillPage(
                 if (relevantData.images.portrait) { // in data.json different img ratio
 
                     const replaceImage = () => {
-                        element.src = (isDesktopMode()) ?
-                            relevantData.images.portrait :
+                        // change img extension if webp supported
+                        const portrait = (webpSupport) ?
+                            replaceImageExtensionToWEBP(relevantData.images.portrait) :
+                            relevantData.images.portrait;
+                        const landscape = (webpSupport) ?
+                            replaceImageExtensionToWEBP(relevantData.images.landscape) :
                             relevantData.images.landscape;
-    
+                        
+                        element.src = (isDesktopMode()) ? portrait : landscape;
                         element.alt = `${relevantData.name} photo`;
                     };
 

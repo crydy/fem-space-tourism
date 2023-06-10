@@ -9,36 +9,15 @@ export const images = () => {
         .pipe(app.plugins.notifyError('IMAGES'))
         // go on the further processing with the new files only
         .pipe(app.plugins.newer(app.path.build.images))
-
-        // -------- for production mode only: --------
         // create .webp copies
-        .pipe(
-            app.plugins.if(
-                app.isBuild,
-                webp()
-            )
-        )
+        .pipe(webp())
         // save in destination folder
-        .pipe(
-            app.plugins.if(
-                app.isBuild,
-                app.gulp.dest(app.path.build.images)
-            )
-        )
+        .pipe(app.gulp.dest(app.path.build.images))
         // get images again
-        .pipe(
-            app.plugins.if(
-                app.isBuild,
-                app.gulp.src(app.path.src.images)
-            )
-        )                                    
+        .pipe(app.gulp.src(app.path.src.images))                                    
         // go on the further processing with the new files only
-        .pipe(
-            app.plugins.if(
-                app.isBuild,
-                app.plugins.newer(app.path.build.images)
-            )
-        )
+        .pipe(app.plugins.newer(app.path.build.images))
+        // -------- for production mode only: --------
         // minify the images
         .pipe(
             app.plugins.if(

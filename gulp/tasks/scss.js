@@ -3,6 +3,11 @@ import gulpSass from 'gulp-sass';                                   // Sass plug
 import rename from 'gulp-rename';                                   // files renaming
 import cleanCss from 'gulp-clean-css';                              // CSS minimization
 import webpcss from 'gulp-webpcss';                                 // additional css rules for using .webp instead of another img formats
+import gatherMedia from 'gulp-group-css-media-queries';             // gather all media query together
+import autoPrefixer from 'gulp-autoprefixer';                       // vendor prefixers autocreation
+
+//      WARNING: "gulp-group-css-media-queries" breaking google fonts import through css!
+//          - use another import or place css import in separate file and concat it
 
 /*-----------------------------------------------------------------------
 
@@ -52,6 +57,12 @@ export const scss = () => {
         .pipe(sass({
             outputStyle: 'expanded'
         }))
+        // gather media queries together
+        .pipe(gatherMedia())
+        // create vendor prefixers
+        .pipe(autoPrefixer({
+			cascade: false
+		}))
         // -------- for production mode only: --------
         // create additional css rule for using .webp
         .pipe(

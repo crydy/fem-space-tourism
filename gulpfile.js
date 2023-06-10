@@ -21,13 +21,8 @@ Main terminal commands (scripts in package.json):
     '$ npm run dev' / '$ gulp'     -> starting gulp development with live server:
     
                                         1. deleting the build folder if exists
-                                        2. conversion/copying fonts (woff/woff2 in build folder)
-                                        2. fonts:
-                                                - otf & .ttf -> woff & woff2 conversion
-                                                - creating/updating fonts.scss (@font-face for import to main file style.scss)
-                                                  (to update it delete the file manually before!)
-                                        3. files, html, scss, js, images -> assemblying/copying/conversion/minification -> build folder
-                                        4. starting live server, with watching for file changes (path.js):
+                                        2. files, html, scss, js, images -> assemblying/copying/conversion/minification -> build folder
+                                        3. starting live server, with watching for file changes (path.js):
                                                 - html files in root and deeper
                                                 - scss files in src/scss and deeper
                                                 - src/js/app.js
@@ -56,6 +51,12 @@ Main terminal commands (scripts in package.json):
     '$ npm run svgSprite'          -> creation svg sprite from .svg files (files inside 'src/svgicons' folder)
 
     '$ npm run zip'                -> reassembling the files, creation or renewing the archive of project in root project folder
+
+    '$ gulp fonts'                 ->  conversion/copying fonts (woff/woff2 in build folder)
+                                        - otf & .ttf -> woff & woff2 conversion
+                                        - creating/updating fonts.scss (@font-face for import to main file style.scss)
+                                          (to update it delete the file manually before!)
+
 
 --------------------------------------------------------------------------------------------------------
 
@@ -113,7 +114,7 @@ global.app = {
 
 // tasks import
 import { server } from './gulp/tasks/server.js';
-import { html } from './gulp/tasks/html.js';
+import { html, validateHtml } from './gulp/tasks/html.js';
 import { scss } from './gulp/tasks/scss.js';
 import { js } from './gulp/tasks/js.js';
 import { images } from './gulp/tasks/images.js';
@@ -137,13 +138,13 @@ const fonts = gulp.series(otfToTtf, ttfToWoff, fontsStyle);
 
 // main tasks
 const mainTasks = gulp.series(
-    fonts,
     gulp.parallel(copyFiles, html, scss, js, images)
 );
 
 // development tasks sequence
 const dev = gulp.series(
     clear,
+    fonts,
     mainTasks,
     gulp.parallel(watcher, server)
 );
@@ -154,8 +155,43 @@ const build = gulp.series(clear, mainTasks);
 // archive creation sequence
 const deployZIP = gulp.series(clear, mainTasks, zip);
 
-// task by default ('gulp' terminal command)
+// task by default ('$ gulp')
 gulp.task('default', dev);
+// check HTML validation in destination folder ('$ gulp html?')
+gulp.task('html?', validateHtml);
+// fonts convertion and transfer to destination directory
+gulp.task('fonts', fonts);
 
-// export tasks for separatly using in package.json scripts ('npm run <task name>')
-export {dev, build, svgSprite, deployZIP}
+
+// export tasks for separatly using in package.json scripts ('$ npm run <task name>')
+export { dev, build, svgSprite, deployZIP }
+
+
+// --------------------------------------------------------------------
+// Tasks to manage in future:
+
+// HTML:
+// - problem with getting data from js to srcset if include <picture> autoaddition
+// + cashe busting (don't need for learning)
+gulp.task('html', html);
+
+// SCSS:
+// - problem with browsersync (now reload() set instead of stream())
+// - problem: gathering mediaqueries plugin breaks google fonts if include it through SCSS
+gulp.task('scss', scss);
+
+// IMAGES:
+// + cashe busting (don't need for learning)
+// + sprites generation
+// + svg optimizing (unnecessary code removing)
+gulp.task('img', images);
+
+// TO CHECK:
+gulp.task('files', copyFiles);
+gulp.task('svg sprite', svgSprite);
+
+// Nothing to change:
+gulp.task('server', server);
+gulp.task('js', js);
+gulp.task('clear', clear);
+gulp.task('zip', zip );

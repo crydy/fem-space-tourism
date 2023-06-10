@@ -18,16 +18,20 @@ export const pagesSetup = {
 
     // png image of planet with transparent bg to overlay moving stars layer
     // (must follow to overlay, same z-index!)
-    planetTransBgImgSet: {
-        homePage: {
-            mobile: 'url("./img/home/background-home-mobile-front.png")',
-            tablet: 'url("./img/home/background-home-tablet-front.png")',
-            desktop: 'url("./img/home/background-home-desktop-front.png")',
-        },
-        crewPage: {
-            mobile: 'url("./img/crew/background-crew-mobile-front.png")',
-            tablet: 'url("./img/crew/background-crew-tablet-front.png")',
-            desktop: 'url("./img/crew/background-crew-desktop-front.png")',
+    firstPlanIMGSet(isWebpSupported) {
+        const ext = isWebpSupported ? 'webp' : 'png';
+
+        return {
+            homePage: {
+                mobile: `url("./img/home/background-home-mobile-front.${ext}")`,
+                tablet: `url("./img/home/background-home-tablet-front.${ext}")`,
+                desktop: `url("./img/home/background-home-desktop-front.${ext}")`,
+            },
+            crewPage: {
+                mobile: `url("./img/crew/background-crew-mobile-front.${ext}")`,
+                tablet: `url("./img/crew/background-crew-tablet-front.${ext}")`,
+                desktop: `url("./img/crew/background-crew-desktop-front.${ext}")`,
+            }
         }
     }
 }

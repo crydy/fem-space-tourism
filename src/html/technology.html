@@ -13,10 +13,16 @@
         'logo-tabindex': '-1',
         'logo-path': 'index.html',
         'class': {
-            'technology': 'this-page'
+            'home': '',
+            'destination': '',
+            'crew': '',
+            'technology': 'this-page',
         },
         'tabindex': {
-            'technology': '-1'
+            'home': '',
+            'destination': '',
+            'crew': '',
+            'technology': 'tabindex="-1"',
         }
     })
 
@@ -47,7 +53,7 @@
                         class="technology__button technology__button--checked"
                         data-slide-index="0"
                         aria-label="technology type 1"
-                        tabindex="-1";
+                        tabindex="-1"
                     >
                         <span class="visually-hidden">Technology type 1</span>
                     </button>
@@ -78,7 +84,7 @@
 
     </main>
 
-    <!-- Footer -->
-    @@include('globals/footer.html', {})
+<!-- Footer -->
+@@include('globals/footer.html', {})
 </body>
 </html>

@@ -41,6 +41,17 @@ export function setBrowserWEBPSupportMark() {
 }
 
 
+export function replaceImageExtensionToWEBP(string) {
+    // Regular expression to match 'png' or 'jpg'
+    var imageExtensionRegex = /(png|jpg)/g;
+  
+    // Replace the matched extensions with 'webp'
+    var newString = string.replace(imageExtensionRegex, 'webp');
+  
+    return newString;
+}
+
+
 export function getCurrentPageName() {
     const currentPath = window.location.pathname; // '/pagename.html'
     const pageName = currentPath.split('/').pop().split('.')[0]; // 'pagename'

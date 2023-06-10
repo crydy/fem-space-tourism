@@ -11,7 +11,6 @@ const srcFolder = './src';
 // *.* -> any files: any name & any extention
 export const path = {
     src: {
-        html: `${srcFolder}/*.html`,
         html: [ `${srcFolder}/*.html`, `${srcFolder}/html/*.html` ],
         scss: `${srcFolder}/scss/style.scss`,
         js: `${srcFolder}/js/app.js`,
