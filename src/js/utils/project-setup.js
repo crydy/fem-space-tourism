@@ -45,6 +45,9 @@ export const mobileMenuSettings = {
     transitionTime: .5,
     transTimingFunc: 'ease-in-out',
 
+    // open menu width
+    menuWidth: 254,
+
     // button setup (px sizes - will be converted in rem))
     buttonColor: '#fff',
     buttonHeight: 21,

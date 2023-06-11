@@ -4,26 +4,19 @@ import { mobileMenuSettings as setup } from "../utils/project-setup.js";
 
 export function setupMobileMenu() {
 
-    const parentElement = document.querySelector(`.${setup.parentElement}`);
-    const overlay = createOverlay();
-    const burgerElement = createBurgerButton();
-    const menuElement = setupSideMenu(
-        document.querySelector(`.${setup.menuElement}`)
-    );
-
-    parentElement.appendChild(burgerElement);
-    document.body.appendChild(overlay);
-
-
     const state = {
         isMobileMode: isMobileMode(),
         isOpened: false,
+        isSwithing: false,
 
         toMobile() { this.isMobileMode = true },
         toDesktop() { this.isMobileMode = false },
 
         open() {this.isOpened = true},
         close() {this.isOpened = false},
+
+        startSwitching() {this.isSwithing = true},
+        stopSwitching() {this.isSwithing = false},
 
         log() {
             let logText = '';
@@ -41,9 +34,21 @@ export function setupMobileMenu() {
         }
     }
 
+    const parentElement = document.querySelector(`.${setup.parentElement}`);
+    const overlay = createOverlay();
+    const burgerElement = createBurgerButton();
+    const menuElement = setupSideMenu(
+        document.querySelector(`.${setup.menuElement}`)
+    );
+
+    parentElement.appendChild(burgerElement);
+    document.body.appendChild(overlay);
+
+
     // toggle menu by button click
     burgerElement.addEventListener('click', () => {
-        
+        if (state.isSwithing) return;
+
         if (state.isOpened) close();
         else open();
     })
@@ -57,16 +62,16 @@ export function setupMobileMenu() {
     let previousState = isMobileMode();
     visualViewport.addEventListener("resize", () => {
 
-        if (previousState !== isMobileMode()) { // breakpoint passed
+        if (previousState !== isMobileMode()) { // breakpoint passed, apply changes
             previousState = isMobileMode();
 
             if (isMobileMode()) {
-    
+
                 burgerElement.appear();
                 menuElement.toMobileView();
 
                 if (!state.isOpened) {
-                    menuElement.hide('ho transition')
+                    menuElement.hide('no transition')
                 } else {
                     overlay.show('no transition');
                 }
@@ -92,56 +97,84 @@ export function setupMobileMenu() {
     
     // -----------------------------------------------
     function setupSideMenu(sideMenu) {
-        
-        sideMenu.hide = (noTransition) => {
-            if (noTransition) {
-                sideMenu.hidden = true;
-            } else {
-                setTimeout(() => sideMenu.hidden = true, setup.transitionTime * 1000);
-                setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
-            }
-            sideMenu.style.transform = 'translateX(100%)';
-        };
-    
-        sideMenu.show = (noTransition) => {
-            sideMenu.hidden = false;
 
-            if (noTransition) {
-                sideMenu.style.transform = '';
-            } else {
+        const menuWidth = setup.menuWidth;
+    
+        sideMenu.show = (transitionState) => {
+            sideMenu.hidden = false;
+            
+            if (transitionState !== 'no transition') {
+                state.startSwitching();
+                
                 setTimeout(() => {
-                    setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
-                    sideMenu.style.transform = '';
+                    setTransitionTemperory(sideMenu, setup.transitionTime * 1000, 'width');
+                    sideMenu.style.width = `${menuWidth}px`;
                 }, setup.shortDelay);
+
+                setTimeout(() => {
+                    state.stopSwitching();
+                }, setup.transitionTime * 1000);
+
+                if(state.isMobileMode) disableVerticalScroll();
             }
+        };
+
+        sideMenu.hide = (transitionState) => {
+            
+            if (transitionState !== 'no transition')  {
+                state.startSwitching();
+
+                setTimeout(() => {
+                    sideMenu.style.width = '0';
+                    sideMenu.hidden = true;
+                    state.stopSwitching();
+
+                }, setup.transitionTime * 1000);
+
+                setTransitionTemperory(sideMenu, setup.transitionTime * 1000, 'width');
+            } else {
+                sideMenu.hidden = true;
+            }
+
+            sideMenu.style.width = '0';
+            enableVerticalScroll();
         };
 
         sideMenu.toMobileView = () => {
             sideMenu.style.position = 'absolute';
+            sideMenu.style.overflow = 'hidden';
             sideMenu.style.top = 0;
             sideMenu.style.right = 0;
-        }
+            sideMenu.style.zIndex = setup.menuZIndex;
+            sideMenu.style.width = (state.isOpened) ? `${menuWidth}px` : '0';
+        };
 
         sideMenu.toDesktopView = () => {
             sideMenu.style.position = '';
+            sideMenu.style.overflow = '';
             sideMenu.style.top = '';
             sideMenu.style.right = '';
+            sideMenu.style.zIndex = '';
+            sideMenu.style.width = '';
 
             sideMenu.show('no transition');
-        }
+        };
 
         // initial menu state
-        sideMenu.style.zIndex = setup.menuZIndex;
-
-        if (!isMobileMode()) {
-            sideMenu.toDesktopView();
-            sideMenu.show('no transition');
-        } else  {
+        if (isMobileMode()) {
             sideMenu.toMobileView();
-            sideMenu.hide('to transition');
-        }
+            sideMenu.hide('no transition');
+        };
 
         return sideMenu;
+
+        function enableVerticalScroll() {
+            document.body.style.overflow = 'auto';
+        }
+
+        function disableVerticalScroll() {
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function createBurgerButton() {
