@@ -101,7 +101,6 @@ export function setupMobileMenu() {
                 setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
             }
             sideMenu.style.transform = 'translateX(100%)';
-            sideMenu.classList.remove('opened');
         };
     
         sideMenu.show = (noTransition) => {
@@ -109,12 +108,10 @@ export function setupMobileMenu() {
 
             if (noTransition) {
                 sideMenu.style.transform = '';
-                sideMenu.classList.add('opened');
             } else {
                 setTimeout(() => {
                     setTransitionTemperory(sideMenu, setup.transitionTime * 1000);
                     sideMenu.style.transform = '';
-                    sideMenu.classList.add('opened');
                 }, setup.shortDelay);
             }
         };
@@ -320,7 +317,7 @@ export function setupMobileMenu() {
             
             if (state.isMobileMode && state.isOpened) {
 
-                if (event.key === 'Tab' && menuElement.classList.contains('opened')) {
+                if (event.key === 'Tab') {
                     
                     if (!event.shiftKey && event.target === lastElem) {
                         event.preventDefault();
