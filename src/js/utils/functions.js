@@ -16,6 +16,27 @@ export function waitDOMContent() {
 }
 
 
+export function preloadImages(imageUrls) {
+
+    const imagePromises = [];
+
+    // Create a promise for each image to be preloaded
+    imageUrls.forEach(imageUrl => {
+        const imagePromise = new Promise((resolve, reject) => {
+            const image = new Image();
+            image.src = imageUrl;
+            image.onload = resolve;
+            image.onerror = reject;
+        });
+  
+        imagePromises.push(imagePromise);
+    });
+
+    // Return a single promise that resolves when all images are preloaded
+    return Promise.all(imagePromises);
+}
+
+
 // check the browser for WEBP support,
 // create 'webp'/'no-webp' class to HTML
 // for use .webp images in css if browser support it

@@ -2,6 +2,7 @@ import { createSpaceElement, createMovingStars } from "./moving-stars.js";
 import { pagesSetup } from "../utils/project-setup.js";
 import {
     getCurrentPageName,
+    preloadImages,
     isDesktopMode,
     isMobileMode,
     replaceWithTransition,
@@ -45,37 +46,50 @@ export default function fillPage(
         switch (currentPage) {
             
             case 'destination':
-                const chosenPlanet = sessionStorage.getItem('planet');
+              
+                preloadImages(getImageUrls(thisPageData))
+                    .then(() => {
+                        const chosenPlanet = sessionStorage.getItem('planet');
+        
+                        if(chosenPlanet) {
+                            switchPlanetButtons(chosenPlanet);
+                            populateTargetElements(
+                                thisPageData.find(item => item.name === chosenPlanet)
+                            )
+                        } else {
+                            populateTargetElements(initialData);
+                        }
+        
+                        manageDestinationPageButtons();
+                        runMovingStars();
+                    })
 
-                if(chosenPlanet) {
-                    switchPlanetButtons(chosenPlanet);
-                    populateTargetElements(
-                        thisPageData.find(item => item.name === chosenPlanet)
-                    )
-                } else {
-                    populateTargetElements(initialData);
-                }
-
-                manageDestinationPageButtons();
-                runMovingStars();
                 break;
     
             case 'crew':
-                populateTargetElements(initialData);
 
-                manageCrewMemberSwithing(
-                    crewSlideInterval,
-                    crewSlideDelay
-                );
+                preloadImages(getImageUrls(thisPageData))
+                    .then(() => {
+                        populateTargetElements(initialData);
+                        manageCrewMemberSwithing(
+                            crewSlideInterval,
+                            crewSlideDelay
+                        );
+                        runMovingStars();
+                        insertFrontPlanetOverlay(planetTransBgImgSet.crewPage);
+                    })
 
-                runMovingStars();
-                insertFrontPlanetOverlay(planetTransBgImgSet.crewPage);
                 break;
     
             case 'technology':
-                populateTargetElements(initialData);
-                manageTechnologyPageIMGResize();
-                manageTechnologyPageButtons();
+                
+                preloadImages(getImageUrls(thisPageData))
+                    .then(() => {
+                        populateTargetElements(initialData);
+                        manageTechnologyPageIMGResize();
+                        manageTechnologyPageButtons();
+                    })
+
                 break;
         }
     });
@@ -106,6 +120,38 @@ export default function fillPage(
 
         const thisPageData = commonData[currentPage];
         return thisPageData;
+    }
+
+
+    function getImageUrls(thisPageData) {
+        if (currentPage === 'technology') {
+            // two img versions for different screensize in data.json for this page
+
+            const allImages = [];
+            
+            thisPageData.forEach(
+                item => {
+
+                    if (webpSupport) {
+                        allImages.push(replaceImageExtensionToWEBP(item.images.portrait));
+                        allImages.push(replaceImageExtensionToWEBP(item.images.landscape));
+                    } else {
+                        allImages.push(item.images.portrait);
+                        allImages.push(item.images.landscape);
+                    }
+                }
+            )
+
+            return allImages;
+
+        } else {
+
+            return thisPageData.map(
+                item => {
+                    return (webpSupport) ? item.images.webp : item.images.png;
+                }
+            )
+        }
     }
 
 
